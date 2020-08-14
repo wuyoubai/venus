@@ -32,4 +32,17 @@
         </set>
         WHERE id = #{id}
     </update>
+
+    <update id="updateProfile">
+        update user
+        <set>
+            profile = #{profile}
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getUserList" resultType="com.example.demo.bean.User">
+        select id,username,realname,isdel,creator,createtime,updator,updatetime from user
+    </select>
+
 </mapper>

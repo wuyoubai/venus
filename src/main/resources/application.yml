@@ -12,3 +12,6 @@ spring:
 mybatis:
   typeAliasesPackage: com.example.demo.bean
   mapperLocations: classpath:com/example/demo/mapper/xml/*.xml
+
+server:
+  port: 8081

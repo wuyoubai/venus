@@ -1,11 +1,14 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.bean.Candidate;
 import com.example.demo.mapper.dao.CandidateMapper;
 import com.example.demo.service.interfaces.CandidateService;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+@Service
 public class CandidateServiceImpl implements CandidateService {
 
     @Resource

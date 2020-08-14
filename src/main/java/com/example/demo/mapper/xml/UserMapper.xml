@@ -41,4 +41,8 @@
         where id = #{id}
     </update>
 
+    <select id="getUserList" resultType="com.example.demo.bean.User">
+        select id,username,realname,isdel,creator,createtime,updator,updatetime from user
+    </select>
+
 </mapper>

@@ -1,5 +1,8 @@
 package com.example.demo.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class User {
@@ -9,12 +12,33 @@ public class User {
     private String realname;
     private Integer isdel;
     private Integer creator;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createtime;
     private Integer updator;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date updatetime;
 
     private String oldPassword;
     private String newPassword;
+    private String creatorname;
+    private String updatorname;
+
+    public String getCreatorname() {
+        return creatorname;
+    }
+
+    public void setCreatorname(String creatorname) {
+        this.creatorname = creatorname;
+    }
+
+    public String getUpdatorname() {
+        return updatorname;
+    }
+
+    public void setUpdatorname(String updatorname) {
+        this.updatorname = updatorname;
+    }
 
     public String getOldPassword() {
         return oldPassword;

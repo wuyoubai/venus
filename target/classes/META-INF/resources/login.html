@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/index.css">
+    <title>草包客技术</title>
+    <!-- import Vue before Element -->
+    <script src="js/vue.js"></script>
+    <!-- import JavaScript -->
+    <script src="js/index.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body style="background-color: rgba(91, 191, 177, 1);height: 100%">
+    <div id="login" style="width: 900px;height: auto;display: flex;margin-left: auto;margin-right:auto;margin-top: 230px">
+        <div style="width: 450px;height: 350px;float: left">
+            <img style="width: 450px;height: 350px;" src="image/demo.jpg">
+        </div>
+
+        <div style="width: 450px;height: 350px;background-color: #ffffff;">
+            <p style="margin-left: 20px">管理员后台</p>
+            <div style="width: 100%;text-align: center">
+                <h2>欢迎登陆</h2>
+            </div>
+            <el-form style="margin: 0 auto 0 auto;width: 75%" ref="form" :model="form">
+                <el-form-item label="">
+                    <el-input v-model="form.username" v-on:keyup.enter.native="onSubmit">
+                        <img style="width: 25px;height: 25px;margin-top: 7px" slot="prefix" src="image/username.png">
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-input v-model="form.password" type="password" v-on:keyup.enter.native="onSubmit">
+                        <img style="width: 25px;height: 25px;margin-top: 7px" slot="prefix" src="image/password.png">
+                    </el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button style="width: 100%;background-color: rgba(91, 191, 177, 1);border-color: rgba(91, 191, 177, 1)"
+                               type="primary" @click="onSubmit">登陆</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#login',
+        data: {
+            form: {}
+        },
+        methods: {
+            onSubmit: function(){
+                if(!this.form.username){
+                    this.$message({ message: '请输入用户名', type: 'error'});
+                    return;
+                }else if(!this.form.password){
+                    this.$message({ message: '请输入密码', type: 'error'});
+                    return;
+                }
+                var that = this;
+                $.post('/login', this.form, function(res){
+                    if(res.code === 0){
+                        window.location.href = 'index.html';
+                    }else{
+                        that.$message({ message: res.msg, type: 'error'});
+                    }
+                })
+
+            }
+        }
+    });
+</script>
+</html>

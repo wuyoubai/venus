@@ -53,7 +53,7 @@ public class LoginController {
         if(user != null){
             loginStatus.put("status", 0);//0已登录 1未登录
             loginStatus.put("msg", "已登录");
-            loginStatus.put("username", user.getUsername());
+            loginStatus.put("username", user.getRealname());
         }else{
             loginStatus.put("status", 1);//0已登录 1未登录
             loginStatus.put("msg", "未登录");

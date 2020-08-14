@@ -1,5 +1,7 @@
 package com.example.demo.mapper.dao;
 
+import com.example.demo.bean.Candidate;
+
 import java.util.List;
 
 public interface CandidateMapper {

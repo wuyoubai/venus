@@ -479,10 +479,10 @@
                     </el-table-column>
                     <el-table-column label="操作" align="center"  width="130" align="center">
                         <template slot-scope="scope">
-                            <el-button size="mini"
-                                       @click="handlePublish(scope.row)">发布</el-button>
-                            <el-button size="mini" type="danger"
-                                       @click="handleRevoke(scope.row)">撤销</el-button>
+                            <el-button v-if="scope.row.isdel===0" size="mini" type="danger"
+                                       @click="handleIsdel(scope.row)">禁用</el-button>
+                            <el-button v-if="scope.row.isdel===1" size="mini" type="success"
+                                       @click="handleIsdel(scope.row)">启用</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -1406,28 +1406,13 @@
                 handleReset: function(){
                     this.queryParam = {username:'',isdel:''}
                 },
-                handlePublish: function(car){
-                    if(car.carStatus === 2){
-                        this.$message({ message: '车辆已经发布了哦！', type: 'warning'});
-                        return;
-                    }
+                handleIsdel: function(user){
                     var that = this;
-                    $.post('/publishCar',{carId: car.carId},function(){
+                    $.post('/isdel',{id: user.id,isdel:user.isdel},function(){
                         that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-                        that.$message({ message: '发布成功！', type: 'success'});
+                        that.$message({ message: '操作成功！', type: 'success'});
                     });
                 },
-                handleRevoke: function(car){
-                    var that = this;
-                    if(car.carStatus === 3){
-                        this.$message({ message: '车辆已经是撤待发布状态！', type: 'warning'});
-                        return;
-                    }
-                    $.post('/revokeCar',{carId: car.carId},function(){
-                        that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-                        that.$message({ message: '撤销成功！', type: 'success'});
-                    })
-                }
             },
             template:'#internalusers-table'
         },

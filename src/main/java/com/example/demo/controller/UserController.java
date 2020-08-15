@@ -41,6 +41,11 @@ public class UserController {
     @PostMapping("/isdel")
     public Result isdel(User user, HttpServletRequest request){
         int updator = CommonUtils.sessionUser(request).getId();
+        if (user.getIsdel() == 0){
+            user.setIsdel(1);
+        } else {
+            user.setIsdel(0);
+        }
         user.setUpdator(updator);
         userService.updateIsdel(user);
         return Result.buildBaseSuccess();

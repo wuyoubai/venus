@@ -435,6 +435,7 @@
                     </el-form-item>
                     <el-form-item style="margin-left: 330px">
                         <el-button size="mini" type="primary" @click="showAddForm('userForm')">新增</el-button>
+                        <el-button size="mini" type="primary" @click="showEditForm('userForm')">编辑</el-button>
                     </el-form-item>
                 </el-form>
                 <el-table :data="td" ref="userTable" highlight-current-row
@@ -479,10 +480,10 @@
                     </el-table-column>
                     <el-table-column label="操作" align="center"  width="130" align="center">
                         <template slot-scope="scope">
-                            <el-button size="mini"
-                                       @click="handlePublish(scope.row)">发布</el-button>
-                            <el-button size="mini" type="danger"
-                                       @click="handleRevoke(scope.row)">撤销</el-button>
+                            <el-button v-if="scope.row.isdel===0" size="mini" type="danger"
+                                       @click="handleIsdel(scope.row)">禁用</el-button>
+                            <el-button v-if="scope.row.isdel===1" size="mini" type="success"
+                                       @click="handleIsdel(scope.row)">启用</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -491,6 +492,28 @@
                 </el-pagination>
 
                 <el-dialog title="新增账户" :visible.sync="addFormVisible" :width="addFormWidth">
+                    <el-form :model="userForm" ref="userForm">
+                        <el-form-item prop="username" label="账户名" :label-width="formLabelWidth" required :rules="[
+                            {required: true, message: '请输入账户名' },
+                            {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
+                            {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
+                        ]">
+                            <el-input v-model="userForm.username" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="realname" label="真实姓名" :label-width="formLabelWidth" required :rules="[
+                            {required: true, message: '请输入真实姓名' },
+                            {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
+                            {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
+                        ]">
+                            <el-input v-model="userForm.realname" autocomplete="off"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="addFormVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="handleAddUser('userForm')">确 定</el-button>
+                    </div>
+                </el-dialog>
+                <el-dialog title="编辑账户" :visible.sync="editFormVisible" :width="editFormWidth">
                     <el-form :model="userForm" ref="userForm">
                         <el-form-item prop="username" label="账户名" :label-width="formLabelWidth" required :rules="[
                             {required: true, message: '请输入账户名' },
@@ -1119,15 +1142,14 @@
                     showPage: false,
                     queryParam: {username:'',isdel:''},
                     addFormVisible: false,
+                    editFormVisible: false,
                     sloganFormVisible: false,
                     userForm:{
                         userame: '',
                         realname: '',
                         isdel: '',
                         creator: '',
-                        // createtime:'',
                         updator:'',
-                        // updatetime:''
                     },
                     sloganForm:{},
                     currentRow: {},
@@ -1135,6 +1157,7 @@
                     remnant: 100,
                     formLabelWidth: '120px',
                     addFormWidth: '28%',
+                    editFormWidth: '28%',
                     sloganFormWidth: '25%',
                     carPictureStyle: {width: '500px',height: '400px'},
                     editCarIcon: false,
@@ -1359,6 +1382,12 @@
                         this.$refs[formName].resetFields();
                     }
                 },
+                showEditForm: function(formName){
+                    this.editFormVisible = true;
+                    if(this.$refs[formName]){
+                        this.$refs[formName].resetFields();
+                    }
+                },
                 userStatusText: function(value){
                     var carStatusDic = {
                         '0': '启用',
@@ -1406,28 +1435,13 @@
                 handleReset: function(){
                     this.queryParam = {username:'',isdel:''}
                 },
-                handlePublish: function(car){
-                    if(car.carStatus === 2){
-                        this.$message({ message: '车辆已经发布了哦！', type: 'warning'});
-                        return;
-                    }
+                handleIsdel: function(user){
                     var that = this;
-                    $.post('/publishCar',{carId: car.carId},function(){
+                    $.post('/isdel',{id: user.id,isdel:user.isdel},function(){
                         that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-                        that.$message({ message: '发布成功！', type: 'success'});
+                        that.$message({ message: '操作成功！', type: 'success'});
                     });
                 },
-                handleRevoke: function(car){
-                    var that = this;
-                    if(car.carStatus === 3){
-                        this.$message({ message: '车辆已经是撤待发布状态！', type: 'warning'});
-                        return;
-                    }
-                    $.post('/revokeCar',{carId: car.carId},function(){
-                        that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-                        that.$message({ message: '撤销成功！', type: 'success'});
-                    })
-                }
             },
             template:'#internalusers-table'
         },

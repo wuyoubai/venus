@@ -3,8 +3,8 @@
 <mapper namespace="com.example.demo.mapper.dao.UserMapper">
 
     <insert id="addUser">
-        insert into user(id,username,password,realname,creator,createtime,updator,updatetime)
-        values(#{id},#{username},#{password},#{realname},#{creator},#{createtime},#{updator},#{updatetime})
+        insert into user(id,username,realname,creator,createtime,updator,updatetime)
+        values(#{id},#{username},#{realname},#{creator},#{createtime},#{updator},#{updatetime})
     </insert>
 
 
@@ -43,6 +43,17 @@
 
     <select id="getUserList" resultType="com.example.demo.bean.User">
         select id,username,realname,isdel,creator,createtime,updator,updatetime from user
+        <where>
+            <if test="username != null and username != ''">
+                or username like concat('%',#{username},'%')
+            </if>
+            <if test="realname != null and realname != ''">
+                or realname like concat('%',#{realname},'%')
+            </if>
+            <if test="isdel != null">
+                and isdel = #{isdel}
+            </if>
+        </where>
     </select>
 
 </mapper>

@@ -10,7 +10,7 @@ public interface UserService {
     int update(User user);
     int delete(int id);
     User getUser(int id);
-    List<User> getUserList();
+    List<User> getUserList(User user);
 
     User selectUserByUsername(String username);
     User selectUserByUserId(int id);

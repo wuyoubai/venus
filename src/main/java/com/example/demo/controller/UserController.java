@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.bean.User;
 import com.example.demo.bean.vo.PageQO;
+import com.example.demo.result.Message;
 import com.example.demo.result.Result;
 import com.example.demo.service.interfaces.UserService;
 import com.example.demo.utils.CommonUtils;
@@ -24,6 +25,9 @@ public class UserController {
 
     @PostMapping("/addUser")
     public Result addUser(User user, HttpServletRequest request){
+        if (userService.selectUserByUsername(user.getUsername()) != null){
+            return Result.buildBaseFail(Message.DUPLICATE_USERNAME);
+        }
         int id = CommonUtils.sessionUser(request).getId();
         user.setCreator(id);
         user.setUpdator(id);
@@ -42,10 +46,11 @@ public class UserController {
         return Result.buildBaseSuccess();
     }
 
-    @GetMapping("/listAllUser")
-    public Result listAllUser(PageQO pageQO, HttpServletRequest request){
+    @GetMapping("/listUser")
+    public Result listAllUser(PageQO pageQO, User user, HttpServletRequest request){
             Page<User> page = PageHelper.startPage(pageQO.getPageNum(), pageQO.getPageSize());
-            List<User> users = userService.getUserList();
+            user.setRealname(user.getUsername());
+            List<User> users = userService.getUserList(user);
             for (User u : users) {
                 Integer creatorid = u.getCreator();
                 Integer updatorid = u.getUpdator();

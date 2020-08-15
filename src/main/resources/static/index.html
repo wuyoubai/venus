@@ -421,10 +421,10 @@
                 <h1 style="color: rgba(91, 191, 177, 1);">账户管理</h1>
                 <el-form class="demo-ruleForm" :inline="true">
                     <el-form-item label="" style="width: 200px">
-                        <el-input type="text" size="mini" autocomplete="off" placeholder="账户名" v-model="queryParam.carName"></el-input>
+                        <el-input type="text" size="mini" autocomplete="off" placeholder="账户名" v-model="queryParam.username"></el-input>
                     </el-form-item>
                     <el-form-item label="" style="width: 150px">
-                        <el-select size="mini" placeholder="状态" v-model="queryParam.carStatus">
+                        <el-select size="mini" placeholder="状态" v-model="queryParam.isdel">
                             <el-option label="启用" value="0"></el-option>
                             <el-option label="禁用" value="1"></el-option>
                         </el-select>
@@ -433,7 +433,7 @@
                         <el-button size="mini" type="primary" @click="handleQuery">搜索</el-button>
                         <el-button size="mini" @click="handleReset">重置</el-button>
                     </el-form-item>
-                    <el-form-item style="margin-left: 130px">
+                    <el-form-item style="margin-left: 330px">
                         <el-button size="mini" type="primary" @click="showAddForm('userForm')">新增</el-button>
                     </el-form-item>
                 </el-form>
@@ -497,38 +497,19 @@
                             {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
                             {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
                         ]">
-                            <el-input v-model="userForm.userame" autocomplete="off"></el-input>
+                            <el-input v-model="userForm.username" autocomplete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="真实姓名" :label-width="formLabelWidth" required>
-                            <el-col :span="11">
-                                <el-form-item prop="carPriceMin" required :rules="[
-                            { required: true, message: '最小价格不能为空'},
-                            {pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1})?$/, message: '必须数字，允许一位小数'}
+                        <el-form-item prop="realname" label="真实姓名" :label-width="formLabelWidth" required :rules="[
+                            {required: true, message: '请输入真实姓名' },
+                            {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
+                            {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
                         ]">
-                                    <el-input style="width: 100%" v-model="userForm.carPriceMin" placeholder="万元" autocomplete="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col class="line" :span="2">-</el-col>
-                            <el-col :span="11">
-                                <el-form-item prop="carPriceMax" required :rules="[
-                            { required: true, message: '最大价格不能为空'},
-                            {pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1})?$/, message: '必须数字，允许一位小数'}
-                        ]">
-                                    <el-input style="width: 100%" v-model="userForm.carPriceMax" placeholder="万元" autocomplete="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-form-item>
-                        <el-form-item label="宣传语" :label-width="formLabelWidth" prop="carSlogan" required :rules="[
-                            {required: true, message: '请输入宣传语' },
-                            {min: 2, max: 5, message: '长度在 2 到 5 个字符' },
-                            {pattern: /^[\w\u4E00-\u9FA5]+$/, message: '宣传语不能有特殊字符'}
-                        ]">
-                            <el-input v-model="userForm.carSlogan" autocomplete="off"></el-input>
+                            <el-input v-model="userForm.realname" autocomplete="off"></el-input>
                         </el-form-item>
                     </el-form>
                     <div slot="footer" class="dialog-footer">
                         <el-button @click="addFormVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="handleAddCar('userForm')">确 定</el-button>
+                        <el-button type="primary" @click="handleAddUser('userForm')">确 定</el-button>
                     </div>
                 </el-dialog>
             </div>
@@ -1123,7 +1104,7 @@
         'internalusers-table':{
             data:function(){
                 var that = this;
-                $.get('/listAllUser',function(res){
+                $.get('/listUser',function(res){
                     that.td = res.data.list;
                     that.total = parseInt(res.data.total);
                     that.showPage = that.total > 0;
@@ -1136,7 +1117,7 @@
                     total: 0,
                     cPage: 1,
                     showPage: false,
-                    queryParam: {carName:'',carStatus:''},
+                    queryParam: {username:'',isdel:''},
                     addFormVisible: false,
                     sloganFormVisible: false,
                     userForm:{
@@ -1144,9 +1125,9 @@
                         realname: '',
                         isdel: '',
                         creator: '',
-                        createtime:'',
+                        // createtime:'',
                         updator:'',
-                        updatetime:''
+                        // updatetime:''
                     },
                     sloganForm:{},
                     currentRow: {},
@@ -1388,7 +1369,7 @@
                 queryData: function(param){
                     var that = this;
                     $.ajax({
-                        url:'/bgListCar',
+                        url:'/listUser',
                         type:'get',
                         data: param,
                         success:function(res){
@@ -1397,7 +1378,7 @@
                         }
                     });
                 },
-                handleAddCar: function(formName){
+                handleAddUser: function(formName){
                     var that = this;
                     this.$refs[formName].validate(function(valid) {
                         if (valid) {
@@ -1423,7 +1404,7 @@
                     this.queryData($.extend({pageNum:1},this.queryParam));
                 },
                 handleReset: function(){
-                    this.queryParam = {carName:'',carStatus:''}
+                    this.queryParam = {username:'',isdel:''}
                 },
                 handlePublish: function(car){
                     if(car.carStatus === 2){

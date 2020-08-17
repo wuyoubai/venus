@@ -433,21 +433,25 @@
                         <el-button size="mini" type="primary" @click="handleQuery">搜索</el-button>
                         <el-button size="mini" @click="handleReset">重置</el-button>
                     </el-form-item>
-                    <el-form-item style="margin-left: 330px">
+                    <el-form-item style="margin-left: 360px">
                         <el-button size="mini" type="primary" @click="showAddForm('userForm')">新增</el-button>
                         <el-button size="mini" type="primary" @click="showEditForm('userForm')">编辑</el-button>
                     </el-form-item>
                 </el-form>
-                <el-table :data="td" ref="userTable" highlight-current-row
-                          @current-change="handleSelectChange">
+                <el-table :data="td" ref="userTable" highlight-current-row stripe
+                          @current-change="handleSelectChange" :default-sort = "{scope: 'scope.row.username', order: 'descending'}">
+                    <el-table-column
+                            type="selection"
+                            width="50">
+                    </el-table-column>
                     <el-table-column label="序号" width="50" type="index" align="center">
                     </el-table-column>
-                    <el-table-column label="账户名" width="100" align="center">
+                    <el-table-column label="账户名" width="80" align="center">
                         <template slot-scope="scope">
                             <span>{{ scope.row.username }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="姓名" width="100" align="center">
+                    <el-table-column label="姓名" width="80" align="center">
                         <template slot-scope="scope">
                             <span>{{ scope.row.realname }}</span>
                         </template>
@@ -463,7 +467,7 @@
                             <span>{{ scope.row.creatorname }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="创建时间" width="180" align="center">
+                    <el-table-column label="创建时间" width="180" align="center" sortable>
                         <template slot-scope="scope">
                             <span>{{ scope.row.createtime }}</span>
                         </template>
@@ -473,17 +477,19 @@
                             <span>{{ scope.row.updatorname }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="编辑时间" width="180" align="center">
+                    <el-table-column label="编辑时间" width="180" align="center" sortable>
                         <template slot-scope="scope">
                             <span>{{ scope.row.updatetime }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="操作" align="center"  width="130" align="center">
+                    <el-table-column label="操作" align="center"  width="230" align="center">
                         <template slot-scope="scope">
                             <el-button v-if="scope.row.isdel===0" size="mini" type="danger"
-                                       @click="handleIsdel(scope.row)">禁用</el-button>
+                                       @click="handleIsdel( )">禁用</el-button>
                             <el-button v-if="scope.row.isdel===1" size="mini" type="success"
                                        @click="handleIsdel(scope.row)">启用</el-button>
+                            <el-button size="mini" type="primary"
+                                       @click="showEditForm(scope.row)">编辑</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -520,14 +526,14 @@
                             {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
                             {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
                         ]">
-                            <el-input v-model="userForm.username" autocomplete="off"></el-input>
+                            <el-input v-model="userForm.username" autocomplete="off" slot-scope="scope">{{ scope.row.username }}</el-input>
                         </el-form-item>
                         <el-form-item prop="realname" label="真实姓名" :label-width="formLabelWidth" required :rules="[
                             {required: true, message: '请输入真实姓名' },
                             {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
                             {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
                         ]">
-                            <el-input v-model="userForm.realname" autocomplete="off"></el-input>
+                            <el-input v-model="userForm.realname" autocomplete="off" slot-scope="scope">{{ scope.row.realname }}</el-input>
                         </el-form-item>
                     </el-form>
                     <div slot="footer" class="dialog-footer">

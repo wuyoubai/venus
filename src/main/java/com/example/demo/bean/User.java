@@ -12,11 +12,8 @@ public class User {
     private String realname;
     private Integer isdel;
     private Integer creator;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createtime;
     private Integer updator;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-//    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date updatetime;
 
     private String oldPassword;

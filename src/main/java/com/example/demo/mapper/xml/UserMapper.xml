@@ -54,6 +54,7 @@
                 and isdel = #{isdel}
             </if>
         </where>
+        order by updatetime desc
     </select>
 
 </mapper>

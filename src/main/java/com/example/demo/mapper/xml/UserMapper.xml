@@ -7,6 +7,16 @@
         values(#{id},#{username},#{realname},#{creator},#{createtime},#{updator},#{updatetime})
     </insert>
 
+    <update id="update">
+        update user
+        <set>
+            username = #{username},
+            realname = #{realname},
+            updator = #{updator},
+            updatetime = #{updatetime}
+        </set>
+        where id = #{id}
+    </update>
 
     <select id="selectUserByUsername" resultType="com.example.demo.bean.User">
         select id,username,password,realname,isdel from user where username = #{username}

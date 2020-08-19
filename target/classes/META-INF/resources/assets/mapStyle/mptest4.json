@@ -1,0 +1,51 @@
+{
+	"version": 8,
+	"name": "Basic",
+	"glyphs": "http://nas.ehanghai.cn:90/fonts/{fontstack}/{range}.pbf",
+	"sources": {
+		"mapbox": {
+			"tiles": ["http://t1.tianditu.gov.cn/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=9c5226825a60c9f0178a2441f95523cd","http://t0.tianditu.gov.cn/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=9c5226825a60c9f0178a2441f95523cd"],
+			"type": "raster",
+			"tileSize": 256,
+            "minzoom":0,
+            "maxzoom":16
+        },
+        "mapbox2": {
+			"tiles": ["http://t1.tianditu.gov.cn/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=9c5226825a60c9f0178a2441f95523cd"],
+			"type": "raster",
+			"tileSize": 256,
+            "minzoom":0,
+            "maxzoom":16
+        },
+        "mapbox3": {
+            "tiles":["http://pngchart.ehanghai.cn/hailutu/{z}/{y}/{x}.png"],
+            "type": "raster",
+            "tileSize": 256,
+            "minzoom":0,
+            "maxzoom":16
+        }
+	},
+	"layers": [{
+			"id": "background",
+			"type": "background",
+			"paint": {
+				"background-color": "rgba(212,234,238,1)"
+			}
+		},
+		{
+			"id": "mapbox",
+			"source": "mapbox",
+			"type": "raster"
+		},
+		{
+			"id": "mapbox2",
+			"source": "mapbox2",
+			"type": "raster"
+        },
+        {
+            "id": "mapbox3",
+            "source":"mapbox3",
+            "type":"raster"
+        }
+	]
+}

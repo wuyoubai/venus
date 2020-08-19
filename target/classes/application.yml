@@ -14,6 +14,7 @@ spring:
   jackson:
     #日期格式化
     date-format: yyyy-MM-dd HH:mm:ss
+    #东八区返回前端加8个时区
     time-zone: GMT+8
 
 mybatis:

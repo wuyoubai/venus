@@ -434,27 +434,23 @@
                         <el-button size="mini" @click="handleReset">重置</el-button>
                     </el-form-item>
                     <el-form-item style="margin-left: 360px">
+                        <template slot-scope="scope">
                         <el-button size="mini" type="primary" @click="showAddForm('userForm')">新增</el-button>
-                        <el-button size="mini" type="primary" @click="showEditForm('userForm')">编辑</el-button>
+                        <el-button size="mini" type="primary" @click="showEditForm('userForm',scope.row)">编辑</el-button>
+                        </template>
                     </el-form-item>
                 </el-form>
                 <el-table :data="td" ref="userTable" highlight-current-row stripe
-                          @current-change="handleSelectChange" :default-sort = "{scope: 'scope.row.username', order: 'descending'}">
+                          @current-change="handleSelectChange" :default-sort = "{prop:'createtime', order: 'descending'}">
                     <el-table-column
                             type="selection"
                             width="50">
                     </el-table-column>
                     <el-table-column label="序号" width="50" type="index" align="center">
                     </el-table-column>
-                    <el-table-column label="账户名" width="80" align="center">
-                        <template slot-scope="scope">
-                            <span>{{ scope.row.username }}</span>
-                        </template>
+                    <el-table-column prop="username" label="账户名" width="80" align="center">
                     </el-table-column>
-                    <el-table-column label="姓名" width="80" align="center">
-                        <template slot-scope="scope">
-                            <span>{{ scope.row.realname }}</span>
-                        </template>
+                    <el-table-column prop="realname" label="姓名" width="80" align="center">
                     </el-table-column>
                     <el-table-column label="状态" width="50" align="center"> 
                         <template slot-scope="scope">
@@ -462,34 +458,22 @@
                             <span v-else style="color:red">{{ userStatusText(scope.row.isdel) }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="创建人" width="80" align="center">
-                        <template slot-scope="scope">
-                            <span>{{ scope.row.creatorname }}</span>
-                        </template>
+                    <el-table-column prop="creatorname" label="创建人" width="80" align="center">
                     </el-table-column>
-                    <el-table-column label="创建时间" width="180" align="center" sortable>
-                        <template slot-scope="scope">
-                            <span>{{ scope.row.createtime }}</span>
-                        </template>
+                    <el-table-column prop="createtime" label="创建时间" width="180" align="center" sortable>
                     </el-table-column>
-                    <el-table-column label="编辑人" width="80" align="center">
-                        <template slot-scope="scope">
-                            <span>{{ scope.row.updatorname }}</span>
-                        </template>
+                    <el-table-column prop="updatorname" label="编辑人" width="80" align="center">
                     </el-table-column>
-                    <el-table-column label="编辑时间" width="180" align="center" sortable>
-                        <template slot-scope="scope">
-                            <span>{{ scope.row.updatetime }}</span>
-                        </template>
+                    <el-table-column prop="updatetime" label="编辑时间" width="180" align="center" sortable>
                     </el-table-column>
                     <el-table-column label="操作" align="center"  width="230" align="center">
                         <template slot-scope="scope">
                             <el-button v-if="scope.row.isdel===0" size="mini" type="danger"
-                                       @click="handleIsdel( )">禁用</el-button>
+                                       @click="handleIsdel(scope.row)">禁用</el-button>
                             <el-button v-if="scope.row.isdel===1" size="mini" type="success"
                                        @click="handleIsdel(scope.row)">启用</el-button>
                             <el-button size="mini" type="primary"
-                                       @click="showEditForm(scope.row)">编辑</el-button>
+                                       @click="showEditForm('userForm',scope.row)">编辑</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -499,21 +483,23 @@
 
                 <el-dialog title="新增账户" :visible.sync="addFormVisible" :width="addFormWidth">
                     <el-form :model="userForm" ref="userForm">
-                        <el-form-item prop="username" label="账户名" :label-width="formLabelWidth" required :rules="[
+                            <el-form-item :label-width="formLabelWidth" prop="username" label="账户名" required :rules="[
                             {required: true, message: '请输入账户名' },
                             {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
                             {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
                         ]">
-                            <el-input v-model="userForm.username" autocomplete="off"></el-input>
-                        </el-form-item>
-                        <el-form-item prop="realname" label="真实姓名" :label-width="formLabelWidth" required :rules="[
-                            {required: true, message: '请输入真实姓名' },
+                                <el-input type="username" v-model="userForm.username" autocomplete="off"></el-input>
+                            </el-form-item>
+
+                            <el-form-item :label-width="formLabelWidth" prop="realname" label="姓名" required :rules="[
+                            {required: true, message: '请输入账户名' },
                             {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
                             {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
                         ]">
-                            <el-input v-model="userForm.realname" autocomplete="off"></el-input>
-                        </el-form-item>
+                                <el-input type="realname" v-model="userForm.realname" autocomplete="off"></el-input>
+                            </el-form-item>
                     </el-form>
+
                     <div slot="footer" class="dialog-footer">
                         <el-button @click="addFormVisible = false">取 消</el-button>
                         <el-button type="primary" @click="handleAddUser('userForm')">确 定</el-button>
@@ -526,19 +512,19 @@
                             {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
                             {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
                         ]">
-                            <el-input v-model="userForm.username" autocomplete="off" slot-scope="scope">{{ scope.row.username }}</el-input>
+                            <el-input v-model="userForm.username" autocomplete="off" prop="userForm.username"></el-input>
                         </el-form-item>
                         <el-form-item prop="realname" label="真实姓名" :label-width="formLabelWidth" required :rules="[
                             {required: true, message: '请输入真实姓名' },
                             {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
                             {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
                         ]">
-                            <el-input v-model="userForm.realname" autocomplete="off" slot-scope="scope">{{ scope.row.realname }}</el-input>
+                            <el-input v-model="userForm.realname" autocomplete="off" prop="userForm.realname"></el-input>
                         </el-form-item>
                     </el-form>
                     <div slot="footer" class="dialog-footer">
-                        <el-button @click="addFormVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="handleAddUser('userForm')">确 定</el-button>
+                        <el-button @click="editFormVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="handleEditUser('userForm')">确 定</el-button>
                     </div>
                 </el-dialog>
             </div>
@@ -1137,9 +1123,9 @@
                     that.td = res.data.list;
                     that.total = parseInt(res.data.total);
                     that.showPage = that.total > 0;
-                    if(that.total > 0){
-                        that.$refs.userTable.setCurrentRow(that.td[0]);
-                    }
+                    // if(that.total > 0){
+                        // that.$refs.userTable.setCurrentRow(that.td[0]);
+                    // }
                 });
                 return {
                     td: [],
@@ -1151,7 +1137,8 @@
                     editFormVisible: false,
                     sloganFormVisible: false,
                     userForm:{
-                        userame: '',
+                        id:'',
+                        username: '',
                         realname: '',
                         isdel: '',
                         creator: '',
@@ -1384,15 +1371,15 @@
                 },
                 showAddForm: function(formName){
                     this.addFormVisible = true;
-                    if(this.$refs[formName]){
-                        this.$refs[formName].resetFields();
-                    }
+                    this.userForm.id=null;
+                    this.userForm.username=null;
+                    this.userForm.realname=null;
                 },
-                showEditForm: function(formName){
+                showEditForm: function(formName,row){
                     this.editFormVisible = true;
-                    if(this.$refs[formName]){
-                        this.$refs[formName].resetFields();
-                    }
+                    this.userForm.id=row.id;
+                    this.userForm.username=row.username;
+                    this.userForm.realname=row.realname;
                 },
                 userStatusText: function(value){
                     var carStatusDic = {
@@ -1422,6 +1409,24 @@
                                     that.queryData($.extend({pageNum:that.cPage},that.queryParam));
                                     that.$message({ message: '新增后台账户成功！', type: 'success'});
                                     that.addFormVisible = false;
+                                }else{
+                                    that.$message({ message: res.msg, type: 'error'});
+                                }
+                            });
+                        } else {
+                            return false;
+                        }
+                    });
+                },
+                handleEditUser: function(formName){
+                    var that = this;
+                    this.$refs[formName].validate(function(valid) {
+                        if (valid) {
+                            $.post('/editUser',that.userForm,function(res){
+                                if(res.code === 0){
+                                    that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+                                    that.$message({ message: '编辑后台账户成功！', type: 'success'});
+                                    that.editFormVisible = false;
                                 }else{
                                     that.$message({ message: res.msg, type: 'error'});
                                 }

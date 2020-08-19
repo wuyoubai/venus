@@ -38,6 +38,19 @@ public class UserController {
         return Result.buildBaseSuccess();
     }
 
+    @PostMapping("/editUser")
+    public Result editUser(User user, HttpServletRequest request){
+        if (userService.selectUserByUserId(user.getId()) == null){
+            return Result.buildBaseFail(Message.DUPLICATE_USERNAME);
+        }
+        int id = CommonUtils.sessionUser(request).getId();
+        user.setUpdator(id);
+        Date date = new Date();
+        user.setUpdatetime(date);
+        userService.update(user);
+        return Result.buildBaseSuccess();
+    }
+
     @PostMapping("/isdel")
     public Result isdel(User user, HttpServletRequest request){
         int updator = CommonUtils.sessionUser(request).getId();

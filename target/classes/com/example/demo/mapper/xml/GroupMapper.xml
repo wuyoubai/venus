@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.dao.GroupMapper">
+
+    <insert id="addUser">
+        insert into user(id,username,realname,creator,createtime,updator,updatetime)
+        values(#{id},#{username},#{realname},#{creator},#{createtime},#{updator},#{updatetime})
+    </insert>
+
+    <update id="update">
+        update user
+        <set>
+            username = #{username},
+            realname = #{realname},
+            updator = #{updator},
+            updatetime = #{updatetime}
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="selectUserByUsername" resultType="com.example.demo.bean.User">
+        select id,username,password,realname,isdel from user where username = #{username}
+    </select>
+
+    <select id="selectUserByUserId" resultType="com.example.demo.bean.User">
+        select id,username,password,realname,isdel from user where id = #{id}
+    </select>
+
+    <update id="updatePassword">
+        update user
+        <set>
+          password = #{password}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateIsdel">
+        update user
+        <set>
+            isdel = #{isdel},
+            updator = #{updator}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateProfile">
+        update user
+        <set>
+            profile = #{profile}
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getGroupList" resultType="com.example.demo.bean.Group">
+        select id,groupname,groupuser,groupphone,legalize,status,contract_end_time contractEndTime from hr_group
+        <where>
+            <if test="groupname != null and groupname != ''">
+                or groupname like concat('%',#{groupname},'%')
+            </if>
+            <if test="legalize != null">
+                and legalize = #{legalize}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="isdel != null">
+                and isdel = #{isdel}
+            </if>
+        </where>
+        order by updatetime desc
+    </select>
+
+</mapper>

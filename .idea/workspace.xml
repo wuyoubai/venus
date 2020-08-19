@@ -2,63 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6862b980-33b8-4100-82b6-4b6b47633125" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/404_images/404.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/404_images/404_cloud.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/draw/customize.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/draw/icon/Group.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/draw/icon/eHangHai.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/draw/icon/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/draw/icon/point.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/draw/icon/user.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/login/Password.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/login/Shape.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/login/background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/login/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/mapStyle/mptest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/mapStyle/mptest1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/mapStyle/mptest2.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/mapStyle/mptest3.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/mapStyle/mptest4.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/selectPic/electronicmap.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/selectPic/satellitemap.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/selectPic/sealand.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/selectPic/seamap.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/table/close.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/table/open.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/404_images/404.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/404_images/404_cloud.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/draw/customize.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/draw/icon/Group.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/draw/icon/eHangHai.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/draw/icon/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/draw/icon/point.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/draw/icon/user.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/login/Password.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/login/Shape.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/login/background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/login/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/mapStyle/mptest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/mapStyle/mptest1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/mapStyle/mptest2.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/mapStyle/mptest3.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/mapStyle/mptest4.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/selectPic/electronicmap.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/selectPic/satellitemap.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/selectPic/sealand.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/selectPic/seamap.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/table/close.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/assets/table/open.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/bean/Group.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/GroupController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/mapper/dao/GroupMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/mapper/xml/GroupMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/service/impl/GroupServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/service/interfaces/GroupService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/mapper/xml/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/mapper/xml/UserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/service/impl/UserServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/resources/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/mapper/xml/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/mapper/xml/UserMapper.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -77,11 +29,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UserController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/controller/UserController.java">
+      <file leaf-file-name="GroupController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/controller/GroupController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
-              <caret line="40" column="27" selection-start-line="40" selection-start-column="19" selection-end-line="40" selection-end-column="27" />
+            <state relative-caret-position="226">
+              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GroupService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/service/interfaces/GroupService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="31" lean-forward="true" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -89,31 +56,48 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/static/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-240">
-              <caret line="459" column="38" lean-forward="true" selection-start-line="459" selection-start-column="38" selection-end-line="459" selection-end-column="38" />
+            <state relative-caret-position="267">
+              <caret line="95" column="19" lean-forward="true" selection-start-line="95" selection-start-column="19" selection-end-line="95" selection-end-column="19" />
               <folding>
                 <element signature="n#div#1;n#el-aside#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#template#0;n#body#0;n#html#0;n#!!top" />
+                <element signature="n#el-dialog#0;n#el-aside#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" />
+                <element signature="n#style#0;n#span#2;n#template#0;n#el-table-column#3;n#el-table#0;n#div#0;n#div#0;n#div#0;n#template#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#el-pagination#0;n#div#0;n#div#0;n#div#0;n#template#0;n#body#0;n#html#0;n#!!top" />
                 <element signature="n#template#1;n#body#0;n#html#0;n#!!top" />
+                <element signature="n#template#2;n#body#0;n#html#0;n#!!top" />
                 <element signature="n#el-dialog#0;n#div#0;n#div#0;n#div#0;n#template#2;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#template#3;n#body#0;n#html#0;n#!!top" />
-                <element signature="e#39844#45813#0" />
-                <element signature="e#45835#61054#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/index.css">
-          <provider selected="true" editor-type-id="text-editor" />
+      <file leaf-file-name="Group.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/bean/Group.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="226">
+              <caret line="19" column="32" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="32" />
+              <folding>
+                <element signature="e#630#631#0" expanded="true" />
+                <element signature="e#655#656#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GroupMapper.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/mapper/xml/GroupMapper.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="855">
+              <caret line="57" column="62" lean-forward="true" selection-start-line="57" selection-start-column="62" selection-end-line="57" selection-end-column="62" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file leaf-file-name="UserService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/service/interfaces/UserService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
+            <state relative-caret-position="165">
+              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="18" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -127,46 +111,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserMapper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/mapper/dao/UserMapper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserMapper.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/mapper/xml/UserMapper.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="FxmlFile" />
-        <option value="Interface" />
-        <option value="Class" />
         <option value="JavaScript File" />
         <option value="CSS File" />
         <option value="HTML File" />
+        <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>el-icon-setting</find>
-      <find>changeMenu</find>
-      <find>shop-table</find>
-      <find>internalUsers-table</find>
-      <find>appointment-table</find>
-      <find>appointment_table</find>
       <find>car_table</find>
       <find>shop_table</find>
       <find>internalUsers_table</find>
@@ -183,7 +143,6 @@
       <find>createtime</find>
       <find>userTable</find>
       <find>sloganForm</find>
-      <find>sloganFormVisible</find>
       <find>showAddForm</find>
       <find>addFormVisible</find>
       <find>editUserForm</find>
@@ -191,6 +150,13 @@
       <find>showSloganForm</find>
       <find>showEditForm</find>
       <find>handleEditUser</find>
+      <find>appointment</find>
+      <find>editFormVisible</find>
+      <find>sloganFormVisible</find>
+      <find>groupDateFormVisible</find>
+      <find>groupLegalizeText</find>
+      <find>groupStatusText</find>
+      <find>待生效</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -203,12 +169,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/dao/UserDao.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/impl/UserDaoJdbcTemplateImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/Test/BootApplication.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/Test/Test.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/service/dao/UserDao.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/mapper/dao/UserDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/demo/mapper/xml/UserMapper.xml.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/demo/DemoApplication.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
@@ -244,7 +204,6 @@
         <option value="$PROJECT_DIR$/src/main/resources/static/js/index.js" />
         <option value="$PROJECT_DIR$/src/main/resources/static/css/index.css" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/demo/service/interfaces/UserService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/mapper/dao/UserMapper.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/indextest.html" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/demo/bean/User.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.yml" />
@@ -253,6 +212,13 @@
         <option value="$PROJECT_DIR$/src/main/java/com/example/demo/service/impl/UserServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/login.html" />
         <option value="$PROJECT_DIR$/src/main/resources/static/login1.html" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/mapper/dao/UserMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/bean/Group.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/mapper/dao/GroupMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/service/interfaces/GroupService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/controller/GroupController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/service/impl/GroupServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/demo/mapper/xml/GroupMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/static/index.html" />
       </list>
     </option>
@@ -302,9 +268,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -337,6 +301,15 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="demo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="venus" type="b2602c69:ProjectViewProjectNode" />
+              <item name="venus" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="demo" type="462c0819:PsiDirectoryNode" />
+              <item name="bean" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="venus" type="b2602c69:ProjectViewProjectNode" />
@@ -433,6 +406,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -455,16 +430,20 @@
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.example.demo.Test" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/static" />
-      <recent name="$PROJECT_DIR$/src/main/resources" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/static/assets" />
       <recent name="$PROJECT_DIR$/src/main/resources/static/js" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/example/demo/mapper/xml" />
+      <recent name="$PROJECT_DIR$/src/main/resources/static" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.demo.mapper.dao" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.example.demo.Test" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -566,6 +545,7 @@
       <workItem from="1597711007831" duration="1507000" />
       <workItem from="1597739693496" duration="9168000" />
       <workItem from="1597828481704" duration="3891000" />
+      <workItem from="1597840327917" duration="6833000" />
     </task>
     <servers />
   </component>
@@ -581,7 +561,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="140970000" />
+    <option name="totallyTimeSpent" value="147803000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -618,7 +598,7 @@
       <window_info anchor="bottom" id="Spring" order="7" weight="0.32934132" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32934132" />
       <window_info anchor="bottom" id="Problems" order="9" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21992338" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2229885" />
       <window_info id="Web" order="2" side_tool="true" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -647,55 +627,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.5.5/mybatis-3.5.5.jar!/org/apache/ibatis/session/RowBounds.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.5.5/mybatis-3.5.5.jar!/org/apache/ibatis/mapping/BoundSql.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.5.5/mybatis-3.5.5.jar!/org/apache/ibatis/mapping/Environment.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.5.5/mybatis-3.5.5.jar!/org/apache/ibatis/reflection/ArrayUtil.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.5.5/mybatis-3.5.5.jar!/org/apache/ibatis/cache/CacheKey.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="57" selection-start-line="57" selection-end-line="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.5.5/mybatis-3.5.5.jar!/org/apache/ibatis/executor/BaseExecutor.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="213" selection-start-line="213" selection-end-line="213" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.5.5/mybatis-3.5.5.jar!/org/apache/ibatis/executor/CachingExecutor.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="125" selection-start-line="125" selection-end-line="125" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/github/pagehelper/pagehelper/5.1.2/pagehelper-5.1.2.jar!/com/github/pagehelper/util/StringUtil.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -913,45 +844,10 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/bean/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="16" column="17" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/mapper/xml/UserMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/mapper/dao/UserMapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/service/interfaces/UserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/service/impl/UserServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="23" column="37" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -966,25 +862,125 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/controller/AppUserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/mapper/xml/UserMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/mapper/dao/UserMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/bean/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/mapper/dao/GroupMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="15" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/controller/UserController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="40" column="27" selection-start-line="40" selection-start-column="19" selection-end-line="40" selection-end-column="27" />
+        <state relative-caret-position="1005">
+          <caret line="82" column="5" lean-forward="true" selection-start-line="66" selection-start-column="4" selection-end-line="82" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/controller/GroupController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/service/interfaces/UserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="18" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/service/interfaces/GroupService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="31" lean-forward="true" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/service/impl/UserServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="23" column="37" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/service/impl/GroupServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/bean/Group.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="19" column="32" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="32" />
+          <folding>
+            <element signature="e#630#631#0" expanded="true" />
+            <element signature="e#655#656#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/demo/mapper/xml/GroupMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="57" column="62" lean-forward="true" selection-start-line="57" selection-start-column="62" selection-end-line="57" selection-end-column="62" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-240">
-          <caret line="459" column="38" lean-forward="true" selection-start-line="459" selection-start-column="38" selection-end-line="459" selection-end-column="38" />
+        <state relative-caret-position="267">
+          <caret line="95" column="19" lean-forward="true" selection-start-line="95" selection-start-column="19" selection-end-line="95" selection-end-column="19" />
           <folding>
             <element signature="n#div#1;n#el-aside#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#template#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#el-dialog#0;n#el-aside#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#style#0;n#span#2;n#template#0;n#el-table-column#3;n#el-table#0;n#div#0;n#div#0;n#div#0;n#template#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#el-pagination#0;n#div#0;n#div#0;n#div#0;n#template#0;n#body#0;n#html#0;n#!!top" />
             <element signature="n#template#1;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#template#2;n#body#0;n#html#0;n#!!top" />
             <element signature="n#el-dialog#0;n#div#0;n#div#0;n#div#0;n#template#2;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#template#3;n#body#0;n#html#0;n#!!top" />
-            <element signature="e#39844#45813#0" />
-            <element signature="e#45835#61054#0" />
           </folding>
         </state>
       </provider>

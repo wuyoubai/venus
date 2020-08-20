@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.dao.GroupMapper">
 
-    <insert id="addUser">
+    <insert id="addGroup">
         insert into user(id,username,realname,creator,createtime,updator,updatetime)
         values(#{id},#{username},#{realname},#{creator},#{createtime},#{updator},#{updatetime})
     </insert>
 
-    <update id="update">
+    <update id="editGroup">
         update user
         <set>
             username = #{username},
@@ -18,12 +18,12 @@
         where id = #{id}
     </update>
 
-    <select id="selectUserByUsername" resultType="com.example.demo.bean.User">
+    <select id="selectGroupByGroupname" resultType="com.example.demo.bean.Group">
         select id,username,password,realname,isdel from user where username = #{username}
     </select>
 
-    <select id="selectUserByUserId" resultType="com.example.demo.bean.User">
-        select id,username,password,realname,isdel from user where id = #{id}
+    <select id="selectGroupById" resultType="com.example.demo.bean.Group">
+        select id,groupname,groupuser,groupphone,legalize,status,isdel,remark,creator,createtime,updator,updatetime from hr_group where id = #{id}
     </select>
 
     <update id="updatePassword">
@@ -41,14 +41,6 @@
             updator = #{updator}
         </set>
         WHERE id = #{id}
-    </update>
-
-    <update id="updateProfile">
-        update user
-        <set>
-            profile = #{profile}
-        </set>
-        where id = #{id}
     </update>
 
     <select id="getGroupList" resultType="com.example.demo.bean.Group">

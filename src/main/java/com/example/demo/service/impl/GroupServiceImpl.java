@@ -36,7 +36,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Group getGroup(int id) {
-        return null;
+        return groupMapper.selectGroupById(id);
     }
 
     @Override

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.dao.GroupUserMapper">
+
+    <insert id="addGroupUser">
+        insert into group_user(id,username,realname,creator,createtime,updator,updatetime)
+        values(#{id},#{username},#{realname},#{creator},#{createtime},#{updator},#{updatetime})
+    </insert>
+
+    <update id="updateGroupUser">
+        update group_user
+        <set>
+            username = #{username},
+            realname = #{realname},
+            updator = #{updator},
+            updatetime = #{updatetime}
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="selectGroupUserByname" resultType="com.example.demo.bean.GroupUser">
+        select id,username,password,realname,isdel from group_user where username = #{username}
+    </select>
+
+    <select id="selectGroupUserById" resultType="com.example.demo.bean.GroupUser">
+        select id,username,password,realname,isdel from group_user where id = #{id}
+    </select>
+
+    <update id="updatePassword">
+        update group_user
+        <set>
+          password = #{password}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateIsdel">
+        update group_user
+        <set>
+            isdel = #{isdel},
+            updator = #{updator}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        update group_user
+        <set>
+            status = #{status},
+            updator = #{updator}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateProfile">
+        update group_user
+        <set>
+            profile = #{profile}
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getGroupUserList" resultType="com.example.demo.bean.GroupUser">
+        select id,groupid,username,realname,status,isdel,creator,createtime,updator,updatetime from group_user
+        <where>
+            <if test="username != null and username != ''">
+                or username like concat('%',#{username},'%')
+            </if>
+            <if test="realname != null and realname != ''">
+                or realname like concat('%',#{realname},'%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            and isdel = #{isdel}
+        </where>
+        order by updatetime desc
+    </select>
+
+</mapper>

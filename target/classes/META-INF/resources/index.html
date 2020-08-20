@@ -98,7 +98,7 @@
         <el-container>
             <el-main>
                 <group-table v-if="showAndHide.group_table" :menush="showAndHide"></group-table>
-                <car-table v-if="showAndHide.car_table"></car-table>
+                <hr-table v-if="showAndHide.hr_table"></hr-table>
                 <!--<shop-table v-if="showAndHide.shop_table"></shop-table>-->
                 <internalusers-table v-if="showAndHide.internalusers_table"></internalusers-table>
             </el-main>
@@ -191,207 +191,322 @@
     </div>
 </template>
 
-<template id="car-table">
+<!--<template id="car-table">-->
+    <!--<div class="block">-->
+        <!--<div style="display: flex">-->
+            <!--<div style="width: 720px">-->
+                <!--<h1 style="color: rgba(91, 191, 177, 1);">车辆管理</h1>-->
+                <!--<el-form class="demo-ruleForm" :inline="true">-->
+                    <!--<el-form-item label="" style="width: 180px">-->
+                        <!--<el-input type="text" size="mini" autocomplete="off" placeholder="品牌车型" v-model="queryParam.carName"></el-input>-->
+                    <!--</el-form-item>-->
+                    <!--<el-form-item label="" style="width: 150px">-->
+                        <!--<el-select size="mini" placeholder="状态" v-model="queryParam.carStatus">-->
+                            <!--<el-option label="已发布" value="2"></el-option>-->
+                            <!--<el-option label="待发布" value="1"></el-option>-->
+                            <!--<el-option label="已撤销" value="3"></el-option>-->
+                        <!--</el-select>-->
+                    <!--</el-form-item>-->
+                    <!--<el-form-item>-->
+                        <!--<el-button size="mini" type="primary" @click="handleQuery">搜索</el-button>-->
+                        <!--<el-button size="mini" @click="handleReset">重置</el-button>-->
+                    <!--</el-form-item>-->
+                    <!--<el-form-item style="margin-left: 130px">-->
+                        <!--<el-button size="mini" type="primary" @click="showAddForm('carForm')">新增</el-button>-->
+                    <!--</el-form-item>-->
+                <!--</el-form>-->
+                <!--<el-table :data="td" ref="carTable" highlight-current-row-->
+                          <!--@current-change="handleSelectChange">-->
+                    <!--<el-table-column label="品牌车型" width="120">-->
+                        <!--<template slot-scope="scope">-->
+                            <!--<span>{{ scope.row.carName }}</span>-->
+                        <!--</template>-->
+                    <!--</el-table-column>-->
+                    <!--<el-table-column label="价格区间" width="120">-->
+                        <!--<template slot-scope="scope">-->
+                            <!--<span>{{ scope.row.carPriceMin }}万-{{ scope.row.carPriceMax }}万</span>-->
+                        <!--</template>-->
+                    <!--</el-table-column>-->
+                    <!--<el-table-column label="状态" width="80">-->
+                        <!--<template slot-scope="scope">-->
+                            <!--<span>{{ carStatusText(scope.row.carStatus) }}</span>-->
+                        <!--</template>-->
+                    <!--</el-table-column>-->
+                    <!--<el-table-column label="宣传语" width="80">-->
+                        <!--<template slot-scope="scope">-->
+                            <!--<span>{{ scope.row.carSlogan }}</span>-->
+                        <!--</template>-->
+                    <!--</el-table-column>-->
+                    <!--<el-table-column label="序列号" width="80">-->
+                        <!--<template slot-scope="scope">-->
+                            <!--<el-input class="row-input" style="width: 100%;" @change="handleUpdateIndex($event, scope.row)" v-model="scope.row.carIndex" autocomplete="off"></el-input>-->
+                            <!--&lt;!&ndash;<span>{{ scope.row.carIndex }}</span>&ndash;&gt;-->
+                        <!--</template>-->
+                    <!--</el-table-column>-->
+                    <!--<el-table-column label="操作" align="center"  width="230">-->
+                        <!--<template slot-scope="scope">-->
+                            <!--<el-button size="mini"-->
+                                       <!--@click="handlePublish(scope.row)">发布</el-button>-->
+                            <!--<el-button size="mini" type="danger"-->
+                                       <!--@click="handleRevoke(scope.row)">撤销</el-button>-->
+                            <!--<el-button size="mini" type="danger"-->
+                                       <!--@click="showSloganForm('sloganForm',scope.row)">宣传语</el-button>-->
+                        <!--</template>-->
+                    <!--</el-table-column>-->
+                <!--</el-table>-->
+                <!--<el-pagination v-if="showPage" background layout="prev, pager, next"-->
+                               <!--:total="total" @current-change="handleCurrentChange">-->
+                <!--</el-pagination>-->
+                <!--<el-dialog title="请输入宣传语" :visible.sync="sloganFormVisible" :width="sloganFormWidth">-->
+                    <!--<el-form :model="sloganForm" ref="sloganForm">-->
+                        <!--<el-form-item prop="carSlogan" label="" required :rules="[-->
+                            <!--{required: true, message: '请输入宣传语' },-->
+                            <!--{min: 2, max: 5, message: '长度在 2 到 6 个字符' },-->
+                            <!--{pattern: /^[\w\u4E00-\u9FA5]+$/, message: '不能有特殊字符'}-->
+                        <!--]">-->
+                            <!--<el-input v-model="sloganForm.carSlogan" placeholder="不要超过6个字哦" autocomplete="off"></el-input>-->
+                        <!--</el-form-item>-->
+                    <!--</el-form>-->
+                    <!--<div slot="footer" class="dialog-footer">-->
+                        <!--<el-button @click="sloganFormVisible = false">取 消</el-button>-->
+                        <!--<el-button type="primary" @click="handleUpdateSlogan('sloganForm')">确 定</el-button>-->
+                    <!--</div>-->
+                <!--</el-dialog>-->
+                <!--<el-dialog title="新增车辆" :visible.sync="addFormVisible" :width="addFormWidth">-->
+                    <!--<el-form :model="carForm" ref="carForm">-->
+                        <!--<el-form-item prop="carName" label="品牌车型" :label-width="formLabelWidth" required :rules="[-->
+                            <!--{required: true, message: '请输入品牌车型' },-->
+                            <!--{min: 2, max: 20, message: '长度在 2 到 20 个字符' },-->
+                            <!--{pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}-->
+                        <!--]">-->
+                            <!--<el-input v-model="carForm.carName" autocomplete="off"></el-input>-->
+                        <!--</el-form-item>-->
+                        <!--<el-form-item label="价格区间" :label-width="formLabelWidth" required>-->
+                            <!--<el-col :span="11">-->
+                                <!--<el-form-item prop="carPriceMin" required :rules="[-->
+                            <!--{ required: true, message: '最小价格不能为空'},-->
+                            <!--{pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1})?$/, message: '必须数字，允许一位小数'}-->
+                        <!--]">-->
+                                    <!--<el-input style="width: 100%" v-model="carForm.carPriceMin" placeholder="万元" autocomplete="off"></el-input>-->
+                                <!--</el-form-item>-->
+                            <!--</el-col>-->
+                            <!--<el-col class="line" :span="2">-</el-col>-->
+                            <!--<el-col :span="11">-->
+                                <!--<el-form-item prop="carPriceMax" required :rules="[-->
+                            <!--{ required: true, message: '最大价格不能为空'},-->
+                            <!--{pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1})?$/, message: '必须数字，允许一位小数'}-->
+                        <!--]">-->
+                                    <!--<el-input style="width: 100%" v-model="carForm.carPriceMax" placeholder="万元" autocomplete="off"></el-input>-->
+                                <!--</el-form-item>-->
+                            <!--</el-col>-->
+                        <!--</el-form-item>-->
+                        <!--<el-form-item label="宣传语" :label-width="formLabelWidth" prop="carSlogan" required :rules="[-->
+                            <!--{required: true, message: '请输入宣传语' },-->
+                            <!--{min: 2, max: 5, message: '长度在 2 到 5 个字符' },-->
+                            <!--{pattern: /^[\w\u4E00-\u9FA5]+$/, message: '宣传语不能有特殊字符'}-->
+                        <!--]">-->
+                            <!--<el-input v-model="carForm.carSlogan" autocomplete="off"></el-input>-->
+                        <!--</el-form-item>-->
+                    <!--</el-form>-->
+                    <!--<div slot="footer" class="dialog-footer">-->
+                        <!--<el-button @click="addFormVisible = false">取 消</el-button>-->
+                        <!--<el-button type="primary" @click="handleAddCar('carForm')">确 定</el-button>-->
+                    <!--</div>-->
+                <!--</el-dialog>-->
+            <!--</div>-->
+            <!--<div style="width: 500px; margin-left: 50px;">-->
+                <!--<h1 style="color: rgba(91, 191, 177, 1);">车型图片</h1>-->
+                <!--<div style="width: 100%; background-color: white; padding: 10px">-->
+                    <!--<div style="width: 100%; ">-->
+                        <!--<h5 >详情介绍</h5>-->
+                        <!--<div>-->
+                            <!--<el-input-->
+                                    <!--type="textarea"-->
+                                    <!--:rows="6"-->
+                                    <!--placeholder="请输入内容"-->
+                                    <!--v-model="currentRow.introduction" maxlength="200" @input="remnant = 100 - currentRow.introduction.length">-->
+                            <!--</el-input>-->
+                            <!--<el-button type="primary"  size="min" style="position: relative;top: -32px;-->
+                            <!--float: right; margin-right: 15px; padding: 6px 10px" @click="handleSaveIntroduction">保存</el-button>-->
+                            <!--<span style="position: relative; float: right; margin-right: 10px; top: -24px; color: #909399">{{remnant}}/100</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div :style="carPictureStyle">-->
+                        <!--<h5 >展示图片</h5>-->
+                        <!--<div>-->
+                            <!--<div style="color: rgb(91, 191, 177);display:block;height:28px;width: 100%">-->
+                                <!--<div style="float: right">-->
+                                    <!--<span v-if="!editCarIcon && !editMainCarIcon" @click="editMainCarIcon=true" style="cursor: pointer">设置封面</span>-->
+                                    <!--<span v-if="!editCarIcon && !editMainCarIcon" @click="editCarIcon=true;delCarImageIds=''" style="cursor: pointer; margin:0 10px 0 10px;">编辑</span>-->
+                                    <!--<span v-if="editCarIcon || editMainCarIcon" @click="cancelImage" style="cursor: pointer; margin:0 10px 0 0;">取消</span>-->
+                                    <!--<span v-if="editMainCarIcon" @click="changeCarMainImage" style="cursor: pointer; margin:0 10px 0 0;">完成</span>-->
+                                    <!--<span v-if="editCarIcon" @click="editCarImage" style="cursor: pointer; margin:0 10px 0 0;">完成</span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<el-radio-group v-model="mainImgRadio">-->
+                                <!--<div v-for="(img, index) in currentRow.carImages" style="float: left;width: 244px;margin: 3px;">-->
+                                    <!--<div style="display: inline-block">-->
+                                        <!--<img style="border-radius: 5px; height: 150px; width: 244px;"-->
+                                             <!--:src="'/getImage?url='+img.url">-->
+                                    <!--</div>-->
+                                    <!--<span @click="delCarImage(img)"-->
+                                            <!--v-if="editCarIcon" style="font-size:14px; line-height:0px; color:red;-->
+                                            <!--display: inline-block; margin-right: 4px; position: relative;float: right;-->
+                                            <!--top: -140px; cursor: pointer">X</span>-->
+                                    <!--<el-radio v-if="editMainCarIcon" :label="'la' + img.carImageId"-->
+                                              <!--style="height:0px; display: inline-block;-->
+                                              <!--margin-right: 4px; position: relative;float: right; top: -146px;"></el-radio>-->
+                                <!--</div>-->
+                                <!--<div v-if="!editCarIcon && !editMainCarIcon" @click="uploadCarImg" style="float: left;cursor: pointer;text-align: center; width: 244px;margin: 2px; border: 1px solid #cccccc; border-radius: 5px; height: 150px">-->
+                                    <!--<span style="font-size: 80px; color: #888888; font-weight: 700; height: 150px; line-height: 150px">+</span>-->
+                                <!--</div>-->
+                            <!--</el-radio-group>-->
+                        <!--</div>-->
+                        <!--<form style="display: none;" method="post" id="carImageForm" enctype="multipart/form-data">-->
+                            <!--<input type="file" name="file" id="car_image_input" @change="handleUploadCarImage">-->
+                            <!--<input type="text" name="carId" v-model="currentRow.carId">-->
+                        <!--</form>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div id="cut-image-div" class="el-dialog__wrapper" style=" display: none; z-index: 2;background-color: rgba(30, 31, 33, 0.5)">-->
+            <!--<div style="position: absolute; top: 100px; margin-left: 270px; padding: 20px;;background-color: white;">-->
+                <!--<div style="display: flex">-->
+                    <!--<div class="container" style="width: 800px;height: 450px">-->
+
+                    <!--</div>-->
+                    <!--<div style="text-align: center">-->
+                        <!--<h3>预览</h3>-->
+                        <!--<div class="small" style="width: 480px;height: 270px; overflow: hidden;margin: 10px 0 0 20px"></div>-->
+                        <!--<div style="margin-top: 40px">-->
+                            <!--<el-button @click="cancelCutPicture">取 消</el-button>-->
+                            <!--<el-button style="margin-left: 30px" type="primary" @click="uploadCutPicture">确 定</el-button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+        <!--</div>-->
+        <!--<div id="compress-image-div" class="el-dialog__wrapper"-->
+             <!--style=" display: none;background-color: rgba(30, 31, 33, 0.5); text-align: center; z-index: 3;">-->
+            <!--<p style="color: #3399ff;margin-top: 400px;margin-top: 250px; font-size: 20px;">正在上传...</p>-->
+
+        <!--</div>-->
+
+    <!--</div>-->
+<!--</template>-->
+
+<template id="hr-table">
     <div class="block">
         <div style="display: flex">
-            <div style="width: 720px">
-                <h1 style="color: rgba(91, 191, 177, 1);">车辆管理</h1>
+            <div style="width: 1220px">
+                <h1 style="color: rgba(91, 191, 177, 1);">企业用户</h1>
                 <el-form class="demo-ruleForm" :inline="true">
-                    <el-form-item label="" style="width: 180px">
-                        <el-input type="text" size="mini" autocomplete="off" placeholder="品牌车型" v-model="queryParam.carName"></el-input>
+                    <el-form-item label="" style="width: 200px">
+                        <el-input type="text" size="mini" autocomplete="off" placeholder="账户名" v-model="queryParam.username"></el-input>
                     </el-form-item>
                     <el-form-item label="" style="width: 150px">
-                        <el-select size="mini" placeholder="状态" v-model="queryParam.carStatus">
-                            <el-option label="已发布" value="2"></el-option>
-                            <el-option label="待发布" value="1"></el-option>
-                            <el-option label="已撤销" value="3"></el-option>
+                        <el-select size="mini" placeholder="状态" v-model="queryParam.status">
+                            <el-option label="启用" value="0"></el-option>
+                            <el-option label="禁用" value="1"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item>
                         <el-button size="mini" type="primary" @click="handleQuery">搜索</el-button>
                         <el-button size="mini" @click="handleReset">重置</el-button>
                     </el-form-item>
-                    <el-form-item style="margin-left: 130px">
-                        <el-button size="mini" type="primary" @click="showAddForm('carForm')">新增</el-button>
+                    <el-form-item style="margin-left: 330px">
+                        <template slot-scope="scope">
+                            <el-button size="mini" type="primary" @click="showAddForm('groupUserForm')">新增</el-button>
+                            <el-button size="mini" type="primary" @click="showEditForm('groupUserForm',scope.row)">编辑</el-button>
+                        </template>
                     </el-form-item>
                 </el-form>
-                <el-table :data="td" ref="carTable" highlight-current-row
-                          @current-change="handleSelectChange">
-                    <el-table-column label="品牌车型" width="120">
+                <el-table :data="td" ref="userTable" highlight-current-row stripe
+                          @current-change="handleSelectChange" :default-sort = "{prop:'updatetime', order: 'descending'}">
+                    <el-table-column
+                            type="selection"
+                            width="50">
+                    </el-table-column>
+                    <el-table-column label="序号" width="50" type="index" align="center">
+                    </el-table-column>
+                    <el-table-column prop="groupname" label="所属企业" width="180" align="center">
+                    </el-table-column>
+                    <el-table-column prop="username" label="用户名" width="120" align="center">
+                    </el-table-column>
+                    <el-table-column prop="realname" label="姓名" width="120" align="center">
+                    </el-table-column>
+                    <el-table-column label="状态" width="80" align="center">
                         <template slot-scope="scope">
-                            <span>{{ scope.row.carName }}</span>
+                            <span v-if="scope.row.status===0" style="color:green">{{ groupUserStatusText(scope.row.status) }}</span>
+                            <span v-else style="color:red">{{ groupUserStatusText(scope.row.status) }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="价格区间" width="120">
-                        <template slot-scope="scope">
-                            <span>{{ scope.row.carPriceMin }}万-{{ scope.row.carPriceMax }}万</span>
-                        </template>
+                    <el-table-column prop="updatetime" label="更新时间" width="200" align="center" sortable>
                     </el-table-column>
-                    <el-table-column label="状态" width="80">
+                    <el-table-column label="操作" align="center"  width="230" align="center">
                         <template slot-scope="scope">
-                            <span>{{ carStatusText(scope.row.carStatus) }}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="宣传语" width="80">
-                        <template slot-scope="scope">
-                            <span>{{ scope.row.carSlogan }}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="序列号" width="80">
-                        <template slot-scope="scope">
-                            <el-input class="row-input" style="width: 100%;" @change="handleUpdateIndex($event, scope.row)" v-model="scope.row.carIndex" autocomplete="off"></el-input>
-                            <!--<span>{{ scope.row.carIndex }}</span>-->
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="操作" align="center"  width="230">
-                        <template slot-scope="scope">
-                            <el-button size="mini"
-                                       @click="handlePublish(scope.row)">发布</el-button>
-                            <el-button size="mini" type="danger"
-                                       @click="handleRevoke(scope.row)">撤销</el-button>
-                            <el-button size="mini" type="danger"
-                                       @click="showSloganForm('sloganForm',scope.row)">宣传语</el-button>
+                            <el-button v-if="scope.row.status===0" size="mini" type="danger"
+                                       @click="handleIsdel(scope.row)">禁用</el-button>
+                            <el-button v-if="scope.row.status===1" size="mini" type="success"
+                                       @click="handleIsdel(scope.row)">启用</el-button>
+                            <el-button size="mini" type="primary"
+                                       @click="showEditForm('groupUserForm',scope.row)">编辑</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
                 <el-pagination v-if="showPage" background layout="prev, pager, next"
                                :total="total" @current-change="handleCurrentChange">
                 </el-pagination>
-                <el-dialog title="请输入宣传语" :visible.sync="sloganFormVisible" :width="sloganFormWidth">
-                    <el-form :model="sloganForm" ref="sloganForm">
-                        <el-form-item prop="carSlogan" label="" required :rules="[
-                            {required: true, message: '请输入宣传语' },
-                            {min: 2, max: 5, message: '长度在 2 到 6 个字符' },
-                            {pattern: /^[\w\u4E00-\u9FA5]+$/, message: '不能有特殊字符'}
-                        ]">
-                            <el-input v-model="sloganForm.carSlogan" placeholder="不要超过6个字哦" autocomplete="off"></el-input>
-                        </el-form-item>
-                    </el-form>
-                    <div slot="footer" class="dialog-footer">
-                        <el-button @click="sloganFormVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="handleUpdateSlogan('sloganForm')">确 定</el-button>
-                    </div>
-                </el-dialog>
-                <el-dialog title="新增车辆" :visible.sync="addFormVisible" :width="addFormWidth">
-                    <el-form :model="carForm" ref="carForm">
-                        <el-form-item prop="carName" label="品牌车型" :label-width="formLabelWidth" required :rules="[
-                            {required: true, message: '请输入品牌车型' },
+
+                <el-dialog title="新增账户" :visible.sync="addFormVisible" :width="addFormWidth">
+                    <el-form :model="groupUserForm" ref="groupUserForm">
+                        <el-form-item :label-width="formLabelWidth" prop="username" label="账户名" required :rules="[
+                            {required: true, message: '请输入账户名' },
                             {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
                             {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
                         ]">
-                            <el-input v-model="carForm.carName" autocomplete="off"></el-input>
+                            <el-input type="username" v-model="groupUserForm.username" autocomplete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="价格区间" :label-width="formLabelWidth" required>
-                            <el-col :span="11">
-                                <el-form-item prop="carPriceMin" required :rules="[
-                            { required: true, message: '最小价格不能为空'},
-                            {pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1})?$/, message: '必须数字，允许一位小数'}
+
+                        <el-form-item :label-width="formLabelWidth" prop="realname" label="姓名" required :rules="[
+                            {required: true, message: '请输入账户名' },
+                            {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
+                            {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
                         ]">
-                                    <el-input style="width: 100%" v-model="carForm.carPriceMin" placeholder="万元" autocomplete="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col class="line" :span="2">-</el-col>
-                            <el-col :span="11">
-                                <el-form-item prop="carPriceMax" required :rules="[
-                            { required: true, message: '最大价格不能为空'},
-                            {pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1})?$/, message: '必须数字，允许一位小数'}
-                        ]">
-                                    <el-input style="width: 100%" v-model="carForm.carPriceMax" placeholder="万元" autocomplete="off"></el-input>
-                                </el-form-item>
-                            </el-col>
+                            <el-input type="realname" v-model="groupUserForm.realname" autocomplete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="宣传语" :label-width="formLabelWidth" prop="carSlogan" required :rules="[
-                            {required: true, message: '请输入宣传语' },
-                            {min: 2, max: 5, message: '长度在 2 到 5 个字符' },
-                            {pattern: /^[\w\u4E00-\u9FA5]+$/, message: '宣传语不能有特殊字符'}
+                    </el-form>
+
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="addFormVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="handleAddUser('groupUserForm')">确 定</el-button>
+                    </div>
+                </el-dialog>
+                <el-dialog title="编辑账户" :visible.sync="editFormVisible" :width="editFormWidth">
+                    <el-form :model="groupUserForm" ref="groupUserForm">
+                        <el-form-item prop="username" label="账户名" :label-width="formLabelWidth" required :rules="[
+                            {required: true, message: '请输入账户名' },
+                            {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
+                            {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
                         ]">
-                            <el-input v-model="carForm.carSlogan" autocomplete="off"></el-input>
+                            <el-input v-model="groupUserForm.username" autocomplete="off" prop="groupUserForm.username"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="realname" label="真实姓名" :label-width="formLabelWidth" required :rules="[
+                            {required: true, message: '请输入真实姓名' },
+                            {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
+                            {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
+                        ]">
+                            <el-input v-model="groupUserForm.realname" autocomplete="off" prop="groupUserForm.realname"></el-input>
                         </el-form-item>
                     </el-form>
                     <div slot="footer" class="dialog-footer">
-                        <el-button @click="addFormVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="handleAddCar('carForm')">确 定</el-button>
+                        <el-button @click="editFormVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="handleEditUser('groupUserForm')">确 定</el-button>
                     </div>
                 </el-dialog>
             </div>
-            <div style="width: 500px; margin-left: 50px;">
-                <h1 style="color: rgba(91, 191, 177, 1);">车型图片</h1>
-                <div style="width: 100%; background-color: white; padding: 10px">
-                    <div style="width: 100%; ">
-                        <h5 >详情介绍</h5>
-                        <div>
-                            <el-input
-                                    type="textarea"
-                                    :rows="6"
-                                    placeholder="请输入内容"
-                                    v-model="currentRow.introduction" maxlength="200" @input="remnant = 100 - currentRow.introduction.length">
-                            </el-input>
-                            <el-button type="primary"  size="min" style="position: relative;top: -32px;
-                            float: right; margin-right: 15px; padding: 6px 10px" @click="handleSaveIntroduction">保存</el-button>
-                            <span style="position: relative; float: right; margin-right: 10px; top: -24px; color: #909399">{{remnant}}/100</span>
-                        </div>
-                    </div>
-                    <div :style="carPictureStyle">
-                        <h5 >展示图片</h5>
-                        <div>
-                            <div style="color: rgb(91, 191, 177);display:block;height:28px;width: 100%">
-                                <div style="float: right">
-                                    <span v-if="!editCarIcon && !editMainCarIcon" @click="editMainCarIcon=true" style="cursor: pointer">设置封面</span>
-                                    <span v-if="!editCarIcon && !editMainCarIcon" @click="editCarIcon=true;delCarImageIds=''" style="cursor: pointer; margin:0 10px 0 10px;">编辑</span>
-                                    <span v-if="editCarIcon || editMainCarIcon" @click="cancelImage" style="cursor: pointer; margin:0 10px 0 0;">取消</span>
-                                    <span v-if="editMainCarIcon" @click="changeCarMainImage" style="cursor: pointer; margin:0 10px 0 0;">完成</span>
-                                    <span v-if="editCarIcon" @click="editCarImage" style="cursor: pointer; margin:0 10px 0 0;">完成</span>
-                                </div>
-                            </div>
-                            <el-radio-group v-model="mainImgRadio">
-                                <div v-for="(img, index) in currentRow.carImages" style="float: left;width: 244px;margin: 3px;">
-                                    <div style="display: inline-block">
-                                        <img style="border-radius: 5px; height: 150px; width: 244px;"
-                                             :src="'/getImage?url='+img.url">
-                                    </div>
-                                    <span @click="delCarImage(img)"
-                                            v-if="editCarIcon" style="font-size:14px; line-height:0px; color:red;
-                                            display: inline-block; margin-right: 4px; position: relative;float: right;
-                                            top: -140px; cursor: pointer">X</span>
-                                    <el-radio v-if="editMainCarIcon" :label="'la' + img.carImageId"
-                                              style="height:0px; display: inline-block;
-                                              margin-right: 4px; position: relative;float: right; top: -146px;"></el-radio>
-                                </div>
-                                <div v-if="!editCarIcon && !editMainCarIcon" @click="uploadCarImg" style="float: left;cursor: pointer;text-align: center; width: 244px;margin: 2px; border: 1px solid #cccccc; border-radius: 5px; height: 150px">
-                                    <span style="font-size: 80px; color: #888888; font-weight: 700; height: 150px; line-height: 150px">+</span>
-                                </div>
-                            </el-radio-group>
-                        </div>
-                        <form style="display: none;" method="post" id="carImageForm" enctype="multipart/form-data">
-                            <input type="file" name="file" id="car_image_input" @change="handleUploadCarImage">
-                            <input type="text" name="carId" v-model="currentRow.carId">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="cut-image-div" class="el-dialog__wrapper" style=" display: none; z-index: 2;background-color: rgba(30, 31, 33, 0.5)">
-            <div style="position: absolute; top: 100px; margin-left: 270px; padding: 20px;;background-color: white;">
-                <div style="display: flex">
-                    <div class="container" style="width: 800px;height: 450px">
-
-                    </div>
-                    <div style="text-align: center">
-                        <h3>预览</h3>
-                        <div class="small" style="width: 480px;height: 270px; overflow: hidden;margin: 10px 0 0 20px"></div>
-                        <div style="margin-top: 40px">
-                            <el-button @click="cancelCutPicture">取 消</el-button>
-                            <el-button style="margin-left: 30px" type="primary" @click="uploadCutPicture">确 定</el-button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div id="compress-image-div" class="el-dialog__wrapper"
-             style=" display: none;background-color: rgba(30, 31, 33, 0.5); text-align: center; z-index: 3;">
-            <p style="color: #3399ff;margin-top: 400px;margin-top: 250px; font-size: 20px;">正在上传...</p>
-
         </div>
 
     </div>
@@ -418,8 +533,8 @@
                     </el-form-item>
                     <el-form-item style="margin-left: 360px">
                         <template slot-scope="scope">
-                        <el-button size="mini" type="primary" @click="showAddForm('userForm')">新增</el-button>
-                        <el-button size="mini" type="primary" @click="showEditForm('userForm',scope.row)">编辑</el-button>
+                            <el-button size="mini" type="primary" @click="showAddForm('userForm')">新增</el-button>
+                            <el-button size="mini" type="primary" @click="showEditForm('userForm',scope.row)">编辑</el-button>
                         </template>
                     </el-form-item>
                 </el-form>
@@ -435,7 +550,7 @@
                     </el-table-column>
                     <el-table-column prop="realname" label="姓名" width="80" align="center">
                     </el-table-column>
-                    <el-table-column label="状态" width="50" align="center"> 
+                    <el-table-column label="状态" width="50" align="center">
                         <template slot-scope="scope">
                             <span v-if="scope.row.isdel===0" style="color:green">{{ userStatusText(scope.row.isdel) }}</span>
                             <span v-else style="color:red">{{ userStatusText(scope.row.isdel) }}</span>
@@ -466,21 +581,21 @@
 
                 <el-dialog title="新增账户" :visible.sync="addFormVisible" :width="addFormWidth">
                     <el-form :model="userForm" ref="userForm">
-                            <el-form-item :label-width="formLabelWidth" prop="username" label="账户名" required :rules="[
+                        <el-form-item :label-width="formLabelWidth" prop="username" label="账户名" required :rules="[
                             {required: true, message: '请输入账户名' },
                             {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
                             {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
                         ]">
-                                <el-input type="username" v-model="userForm.username" autocomplete="off"></el-input>
-                            </el-form-item>
+                            <el-input type="username" v-model="userForm.username" autocomplete="off"></el-input>
+                        </el-form-item>
 
-                            <el-form-item :label-width="formLabelWidth" prop="realname" label="姓名" required :rules="[
+                        <el-form-item :label-width="formLabelWidth" prop="realname" label="姓名" required :rules="[
                             {required: true, message: '请输入账户名' },
                             {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
                             {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
                         ]">
-                                <el-input type="realname" v-model="userForm.realname" autocomplete="off"></el-input>
-                            </el-form-item>
+                            <el-input type="realname" v-model="userForm.realname" autocomplete="off"></el-input>
+                        </el-form-item>
                     </el-form>
 
                     <div slot="footer" class="dialog-footer">
@@ -769,30 +884,361 @@
             },
             template:'#group-table'
         },
-        'car-table':{
+        // 'car-table':{
+        //     data:function(){
+        //         var that = this;
+        //         $.get('/bgListCar',function(res){
+        //             that.td = res.data.list;
+        //             that.total = parseInt(res.data.total);
+        //             that.showPage = that.total > 0;
+        //             if(that.total > 0){
+        //                 that.$refs.carTable.setCurrentRow(that.td[0]);
+        //             }
+        //         });
+        //         return {
+        //             td: [],
+        //             total: 0,
+        //             cPage: 1,
+        //             showPage: false,
+        //             queryParam: {carName:'',carStatus:''},
+        //             addFormVisible: false,
+        //             sloganFormVisible: false,
+        //             carForm:{
+        //                 carName: '',
+        //                 carPriceMin: '',
+        //                 carPriceMax: '',
+        //                 carSlogan: ''
+        //             },
+        //             sloganForm:{},
+        //             currentRow: {},
+        //             currentRowIndex: 0,
+        //             remnant: 100,
+        //             formLabelWidth: '120px',
+        //             addFormWidth: '28%',
+        //             sloganFormWidth: '25%',
+        //             carPictureStyle: {width: '500px',height: '400px'},
+        //             editCarIcon: false,
+        //             editMainCarIcon: false,
+        //             mainImage: '',
+        //             mainImgRadio:'',
+        //             delCarImageIds: '',
+        //             cutPictureVisible: false
+        //
+        //         }
+        //     },
+        //     methods:{
+        //         cancelImage: function(){
+        //             this.editCarIcon = false;
+        //             this.editMainCarIcon = false;
+        //             this.queryData($.extend({pageNum:this.cPage},this.queryParam));
+        //         },
+        //         delCarImage: function(img){
+        //             var imgArr = this.currentRow.carImages;
+        //             for(var i = 0; i< imgArr.length; i++){
+        //                 if(imgArr[i].carImageId == img.carImageId){
+        //                     this.currentRow.carImages.splice(i, 1);
+        //                     break;
+        //                 }
+        //             }
+        //             this.delCarImageIds += img.carImageId + ','
+        //         },
+        //         editCarImage: function(){
+        //             //删除图片
+        //             var that = this;
+        //             this.editCarIcon = false;
+        //             this.editMainCarIcon = false;
+        //             if(this.delCarImageIds.length > 0){
+        //                 $.ajax({
+        //                     type: 'post',
+        //                     url: '/delCarImage',
+        //                     data: {delCarImageIds: this.delCarImageIds.substr(0, this.delCarImageIds.length - 1)},
+        //                     success: function(){
+        //                         that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+        //                     }
+        //                 })
+        //             }
+        //         },
+        //         changeCarMainImage: function(){
+        //             //修改主图
+        //             var that = this;
+        //             this.editCarIcon = false;
+        //             this.editMainCarIcon = false;
+        //             $.post('/changeMainImage', {carId: this.currentRow.carId, mainImageId: this.mainImgRadio.replace('la', '')}, function(){
+        //                 that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+        //             })
+        //
+        //         },
+        //         cancelCutPicture: function(){
+        //             $('#car_image_input').val('');
+        //             $('#cut-image-div').css('display', 'none');
+        //         },
+        //         uploadCutPicture: function(){
+        //
+        //             var doUpload = function(formData){
+        //                 $.ajax({
+        //                     url: "/uploadCarImag",
+        //                     type: 'POST',
+        //                     cache: false,
+        //                     data: formData,
+        //                     processData: false,
+        //                     contentType: false,
+        //                     dataType:"json",
+        //                     success : function(res) {
+        //                         if(res.code == 0){
+        //                             that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+        //                             that.$message({ message: '上传车辆图片成功！', type: 'success'});
+        //                         }else{
+        //                             that.$message({ message: res.msg, type: 'error'});
+        //                         }
+        //                         $('#cut-image-div').css('display', 'none');
+        //                         $('#compress-image-div').css('display', 'none');
+        //                     },
+        //                     error:function(data){
+        //                     }
+        //                 });
+        //
+        //
+        //                 $('#car_image_input').val('');
+        //
+        //             }
+        //             var that = this;
+        //             var cutPictureData = $('#cutImg').cropper('getData', true);
+        //             var formData = new FormData($('#carImageForm')[0]);
+        //             formData.append('x', cutPictureData.x);
+        //             formData.append('y', cutPictureData.y);
+        //             formData.append('width', cutPictureData.width);
+        //             formData.append('height', cutPictureData.height);
+        //             var fileObj = $('#car_image_input')[0].files[0];
+        //             if(fileObj.size/1024 > 300) { //大于800k，进行压缩上传
+        //                 $('#compress-image-div').css('display', 'block');
+        //                 photoCompress(fileObj, { quality: 0.2 }, function(base64Codes){
+        //                     var bl = convertBase64UrlToBlob(base64Codes);
+        //                     formData.set("file", bl, "file_" + fileObj.name);
+        //                     doUpload(formData);
+        //                 });
+        //             }else{
+        //                 doUpload(formData);
+        //             }
+        //
+        //         },
+        //         handleUploadCarImage: function(){
+        //             var msg = validateImageFile($('#car_image_input'));
+        //             if(msg){
+        //                 this.$message({ message: msg, type: 'error'});
+        //                 return false;
+        //             }
+        //             this.cutPictureVisible = true;
+        //             $('#cut-image-div').css('display', 'block');
+        //             $('.container').empty()
+        //             var $img = $("<img id='cutImg' src=''>");
+        //             $('.container').append($img);
+        //             $img.attr('src', '');
+        //             var $file = $('#car_image_input');
+        //             var fileObj = $file[0];
+        //             var windowURL = window.URL || window.webkitURL;
+        //             var dataURL;
+        //             if (fileObj && fileObj.files && fileObj.files[0]) {
+        //                 dataURL = windowURL.createObjectURL(fileObj.files[0]);
+        //                 $img.attr('src', dataURL);
+        //             } else {
+        //                 dataURL = $file.val();
+        //                 var imgObj = document.getElementById("preview");
+        //                 // 两个坑:
+        //                 // 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
+        //                 // 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
+        //                 imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+        //                 imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+        //             }
+        //             $img.cropper({
+        //                 aspectRatio: 16 / 9,
+        //                 preview:".small",
+        //                 crop: function(event) {
+        //                     // console.log(event.detail.x);
+        //                     // console.log(event.detail.y);
+        //                     // console.log(event.detail.width);
+        //                     // console.log(event.detail.height);
+        //                     // console.log(event.detail.rotate);
+        //                     // console.log(event.detail.scaleX);
+        //                     // console.log(event.detail.scaleY);
+        //                 }
+        //             });
+        //
+        //         },
+        //         uploadCarImg: function(){
+        //             if(this.currentRow && this.currentRow.carId){
+        //                 $('#car_image_input').click();
+        //             }
+        //         },
+        //         handleSaveIntroduction: function(){
+        //             var that = this;
+        //             var parm = {carId:this.currentRow.carId, introduction: this.currentRow.introduction};
+        //             $.post('/updateCar', parm, function(res){
+        //                 if(res.code === 0){
+        //                     that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+        //                     that.$message({ message: '详情介绍保存成功！', type: 'success'});
+        //                 }else{
+        //                     that.$message({ message: res.msg, type: 'error'});
+        //                 }
+        //             });
+        //         },
+        //         handleSelectChange: function(val){
+        //             //选中某行，更新右边栏信息
+        //             if(!val)return;
+        //             for(var i = 0; i< this.td.length; i++){
+        //                 if(this.td[i].carId === val.carId){
+        //                     this.currentRowIndex = i;
+        //                     break;
+        //                 }
+        //             }
+        //             this.currentRow = val;
+        //             this.mainImgRadio = 'la' + val.mainImageId;
+        //             this.remnant = 100;
+        //             if(this.currentRow.introduction){
+        //                 this.remnant = 100 - this.currentRow.introduction.length;
+        //             }
+        //         },
+        //         handleUpdateSlogan: function(formName){
+        //             var that = this;
+        //             this.$refs[formName].validate(function(valid) {
+        //                 if (valid) {
+        //                     $.post('/updateCar', that.sloganForm, function(res){
+        //                         if(res.code === 0){
+        //                             that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+        //                             that.$message({ message: '更新宣传语成功！', type: 'success'});
+        //                             that.sloganFormVisible = false;
+        //                         }else{
+        //                             that.$message({ message: res.msg, type: 'error'});
+        //                         }
+        //                     });
+        //                 }
+        //             });
+        //
+        //         },
+        //         handleUpdateIndex: function(value, car){
+        //             var that = this;
+        //             var updateParam = {carId:car.carId, carIndex:value};
+        //             $.post('/updateCar', updateParam, function(res){
+        //                 if(res.code === 0){
+        //                     that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+        //                     that.$message({ message: '更新序号成功！', type: 'success'});
+        //
+        //                 }else{
+        //                     that.$message({ message: res.msg, type: 'error'});
+        //                 }
+        //             });
+        //         },
+        //         showSloganForm: function(formName, car){
+        //             Vue.set(this.sloganForm, 'carId', car.carId);
+        //             Vue.set(this.sloganForm, 'carSlogan', car.carSlogan);
+        //             this.sloganFormVisible = true;
+        //             // this.$refs[formName].resetFields();
+        //         },
+        //         showAddForm: function(formName){
+        //             this.addFormVisible = true;
+        //             if(this.$refs[formName]){
+        //                 this.$refs[formName].resetFields();
+        //             }
+        //         },
+        //         carStatusText: function(value){
+        //             var carStatusDic = {
+        //                 '1': '待发布',
+        //                 '2': '已发布',
+        //                 '3': '已撤销'
+        //             };
+        //             return carStatusDic[value];
+        //         },
+        //         queryData: function(param){
+        //             var that = this;
+        //             $.ajax({
+        //                 url:'/bgListCar',
+        //                 type:'get',
+        //                 data: param,
+        //                 success:function(res){
+        //                     that.td = res.data.list;
+        //                     that.$refs.carTable.setCurrentRow(that.td[that.currentRowIndex]);
+        //                 }
+        //             });
+        //         },
+        //         handleAddCar: function(formName){
+        //             var that = this;
+        //             this.$refs[formName].validate(function(valid) {
+        //                 if (valid) {
+        //                     $.post('/addCar',that.carForm,function(res){
+        //                         if(res.code === 0){
+        //                             that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+        //                             that.$message({ message: '新增车辆成功！', type: 'success'});
+        //                             that.addFormVisible = false;
+        //                         }else{
+        //                             that.$message({ message: res.msg, type: 'error'});
+        //                         }
+        //                     });
+        //                 } else {
+        //                     return false;
+        //                 }
+        //             });
+        //         },
+        //         handleCurrentChange: function(cPage){
+        //             this.cPage = cPage;
+        //             this.queryData($.extend({pageNum:cPage},this.queryParam));
+        //         },
+        //         handleQuery: function(){
+        //             this.queryData($.extend({pageNum:1},this.queryParam));
+        //         },
+        //         handleReset: function(){
+        //             this.queryParam = {carName:'',carStatus:''}
+        //         },
+        //         handlePublish: function(car){
+        //             if(car.carStatus === 2){
+        //                 this.$message({ message: '车辆已经发布了哦！', type: 'warning'});
+        //                 return;
+        //             }
+        //             var that = this;
+        //             $.post('/publishCar',{carId: car.carId},function(){
+        //                 that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+        //                 that.$message({ message: '发布成功！', type: 'success'});
+        //             });
+        //         },
+        //         handleRevoke: function(car){
+        //             var that = this;
+        //             if(car.carStatus === 3){
+        //                 this.$message({ message: '车辆已经是撤待发布状态！', type: 'warning'});
+        //                 return;
+        //             }
+        //             $.post('/revokeCar',{carId: car.carId},function(){
+        //                 that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+        //                 that.$message({ message: '撤销成功！', type: 'success'});
+        //             })
+        //         }
+        //     },
+        //     template:'#car-table'
+        // },
+        'hr-table':{
             data:function(){
                 var that = this;
-                $.get('/bgListCar',function(res){
+                $.get('/listGroupUser',function(res){
+                    console.log(res)
                     that.td = res.data.list;
                     that.total = parseInt(res.data.total);
                     that.showPage = that.total > 0;
-                    if(that.total > 0){
-                        that.$refs.carTable.setCurrentRow(that.td[0]);
-                    }
+                    // if(that.total > 0){
+                    // that.$refs.userTable.setCurrentRow(that.td[0]);
+                    // }
                 });
                 return {
                     td: [],
                     total: 0,
                     cPage: 1,
                     showPage: false,
-                    queryParam: {carName:'',carStatus:''},
+                    queryParam: {username:'',status:''},
                     addFormVisible: false,
+                    editFormVisible: false,
                     sloganFormVisible: false,
-                    carForm:{
-                        carName: '',
-                        carPriceMin: '',
-                        carPriceMax: '',
-                        carSlogan: ''
+                    groupUserForm:{
+                        id:'',
+                        groupname:'',
+                        username: '',
+                        realname: '',
+                        status: ''
                     },
                     sloganForm:{},
                     currentRow: {},
@@ -800,6 +1246,7 @@
                     remnant: 100,
                     formLabelWidth: '120px',
                     addFormWidth: '28%',
+                    editFormWidth: '28%',
                     sloganFormWidth: '25%',
                     carPictureStyle: {width: '500px',height: '400px'},
                     editCarIcon: false,
@@ -1020,39 +1467,62 @@
                 },
                 showAddForm: function(formName){
                     this.addFormVisible = true;
-                    if(this.$refs[formName]){
-                        this.$refs[formName].resetFields();
-                    }
+                    this.groupUserForm.id=null;
+                    this.groupUserForm.username=null;
+                    this.groupUserForm.realname=null;
                 },
-                carStatusText: function(value){
-                    var carStatusDic = {
-                        '1': '待发布',
-                        '2': '已发布',
-                        '3': '已撤销'
+                showEditForm: function(formName,row){
+                    this.editFormVisible = true;
+                    this.groupUserForm.id=row.id;
+                    this.groupUserForm.username=row.username;
+                    this.groupUserForm.realname=row.realname;
+                },
+                groupUserStatusText: function(value){
+                    var groupUserStatusDic = {
+                        '0': '启用',
+                        '1': '禁用'
                     };
-                    return carStatusDic[value];
+                    return groupUserStatusDic[value];
                 },
                 queryData: function(param){
                     var that = this;
                     $.ajax({
-                        url:'/bgListCar',
+                        url:'/listGroupUser',
                         type:'get',
                         data: param,
                         success:function(res){
                             that.td = res.data.list;
-                            that.$refs.carTable.setCurrentRow(that.td[that.currentRowIndex]);
+                            that.$refs.userTable.setCurrentRow(that.td[that.currentRowIndex]);
                         }
                     });
                 },
-                handleAddCar: function(formName){
+                handleAddUser: function(formName){
                     var that = this;
                     this.$refs[formName].validate(function(valid) {
                         if (valid) {
-                            $.post('/addCar',that.carForm,function(res){
+                            $.post('/addUser',that.groupUserForm,function(res){
                                 if(res.code === 0){
                                     that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-                                    that.$message({ message: '新增车辆成功！', type: 'success'});
+                                    that.$message({ message: '新增后台账户成功！', type: 'success'});
                                     that.addFormVisible = false;
+                                }else{
+                                    that.$message({ message: res.msg, type: 'error'});
+                                }
+                            });
+                        } else {
+                            return false;
+                        }
+                    });
+                },
+                handleEditUser: function(formName){
+                    var that = this;
+                    this.$refs[formName].validate(function(valid) {
+                        if (valid) {
+                            $.post('/editUser',that.groupUserForm,function(res){
+                                if(res.code === 0){
+                                    that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+                                    that.$message({ message: '编辑后台账户成功！', type: 'success'});
+                                    that.editFormVisible = false;
                                 }else{
                                     that.$message({ message: res.msg, type: 'error'});
                                 }
@@ -1070,32 +1540,17 @@
                     this.queryData($.extend({pageNum:1},this.queryParam));
                 },
                 handleReset: function(){
-                    this.queryParam = {carName:'',carStatus:''}
+                    this.queryParam = {username:'',status:''}
                 },
-                handlePublish: function(car){
-                    if(car.carStatus === 2){
-                        this.$message({ message: '车辆已经发布了哦！', type: 'warning'});
-                        return;
-                    }
+                handleIsdel: function(user){
                     var that = this;
-                    $.post('/publishCar',{carId: car.carId},function(){
+                    $.post('/groupUserIsdel',{id: user.id,isdel:user.isdel},function(){
                         that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-                        that.$message({ message: '发布成功！', type: 'success'});
+                        that.$message({ message: '操作成功！', type: 'success'});
                     });
                 },
-                handleRevoke: function(car){
-                    var that = this;
-                    if(car.carStatus === 3){
-                        this.$message({ message: '车辆已经是撤待发布状态！', type: 'warning'});
-                        return;
-                    }
-                    $.post('/revokeCar',{carId: car.carId},function(){
-                        that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-                        that.$message({ message: '撤销成功！', type: 'success'});
-                    })
-                }
             },
-            template:'#car-table'
+            template:'#hr-table'
         },
         'internalusers-table':{
             data:function(){
@@ -1559,7 +2014,7 @@
 
         changeMenu: function(index){
             this.showAndHide.group_table = false;
-            this.showAndHide.car_table = false;
+            this.showAndHide.hr_table = false;
             // this.showAndHide.shop_table = false;
             this.showAndHide.internalusers_table = false;
             switch (index) {
@@ -1567,15 +2022,13 @@
                     this.showAndHide.group_table = true;
                     break;
                 case 2:
-                    //车辆管理
-                    this.showAndHide.car_table = true;
+                    this.showAndHide.hr_table = true;
                     break;
                 // case 4:
                 //     //店面管理
                 //     this.showAndHide.shop_table = true;
                 //     break;
                 case 3:
-                    //店面管理
                     this.showAndHide.internalusers_table = true;
                     break;
             }
@@ -1588,7 +2041,7 @@
         data: {
             loginUserName:'',
             showAndHide:{
-                group_table: true, car_table: false, internalusers_table: false
+                group_table: true, hr_table: false, internalusers_table: false
                 // shop_table: false,
             },
             passwordFormVisible: false,

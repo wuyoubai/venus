@@ -52,7 +52,7 @@
     </update>
 
     <select id="getGroupList" resultType="com.example.demo.bean.Group">
-        select id,groupname,groupuser,groupphone,legalize,status,contract_end_time contractEndTime from hr_group
+        select id,groupname,groupuser,groupphone,legalize,status,contract_end_time contractEndTime,remark from hr_group
         <where>
             <if test="groupname != null and groupname != ''">
                 or groupname like concat('%',#{groupname},'%')
@@ -68,6 +68,12 @@
             </if>
         </where>
         order by updatetime desc
+    </select>
+
+    <select id="getGroupExpiredList" resultType="com.example.demo.bean.Group">
+        select id,groupname,groupphone,contract_end_time contractEndTime from hr_group
+        where contract_end_time &lt; #{contractEndTime} and isdel = 0 and status = 0
+        order by contract_end_time
     </select>
 
 </mapper>

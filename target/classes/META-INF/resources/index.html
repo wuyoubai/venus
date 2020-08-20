@@ -110,19 +110,23 @@
 <template id="group-table" >
     <div class="block">
         <div style="display: flex">
-            <div style="width: 720px">
+            <div style="width: 820px">
                 <h1 style="color: rgba(91, 191, 177, 1);">企业维护</h1>
                 <el-table :data="td" >
+                    <el-table-column type="selection" width="50">
+                    </el-table-column>
+                    <el-table-column label="序号" width="50" type="index" align="center">
+                    </el-table-column>
                     <el-table-column prop="groupname" label="企业名称" width="150" align="center">
                     </el-table-column>
-                    <el-table-column prop="groupuser" label="联系人" width="100" align="center">
+                    <el-table-column prop="groupuser" label="联系人" width="80" align="center">
                     </el-table-column>
                     <el-table-column prop="groupphone" label="联系方式" width="110" align="center">
                     </el-table-column>
                     <el-table-column label="认证情况" width="100" align="center">
                         <template slot-scope="scope">
-                            <span v-if="scope.row.legalize===0" style="color:green">{{ groupLegalizeText(scope.row.legalize) }}</span>
-                            <span v-else style="color:red">{{ groupLegalizeText(scope.row.legalize) }}</span>
+                            <span v-if="scope.row.legalize===0" style="color:dodgerblue">{{ groupLegalizeText(scope.row.legalize) }}</span>
+                            <span v-else style="color:orange">{{ groupLegalizeText(scope.row.legalize) }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column label="状态" width="70">
@@ -131,18 +135,26 @@
                             <span v-else style="color:red">{{ groupStatusText(scope.row.status) }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="contractEndTime" label="有效期" width="100" align="center">
+                    <el-table-column prop="contractEndTime" label="有效期" width="110" align="center">
                     </el-table-column>
-                    <el-table-column prop="remark" label="备注" width="100" align="center">
-                    </el-table-column>
-                    <el-table-column label="操作" width="150">
+                    <el-table-column label="备注" width="100" align="center">
                         <template slot-scope="scope">
-                            <el-button size="mini"
-                                       @click="showGroupDateForm(scope.row)">生效</el-button>
-                            <el-button size="mini" type="danger"
-                                       @click="handleInvalid(scope.row)">失效</el-button>
+                            <el-popover trigger="hover" placement="top">
+                                <div word-break="break-all" width="300">{{ scope.row.remark }}</div>
+                                <div slot="reference" class="name-wrapper">
+                                    <el-tag size="medium">详情</el-tag>
+                                </div>
+                            </el-popover>
                         </template>
                     </el-table-column>
+                    <!--<el-table-column label="操作" width="150">-->
+                        <!--<template slot-scope="scope">-->
+                            <!--<el-button size="mini"-->
+                                       <!--@click="showGroupDateForm(scope.row)">生效</el-button>-->
+                            <!--<el-button size="mini" type="danger"-->
+                                       <!--@click="handleInvalid(scope.row)">失效</el-button>-->
+                        <!--</template>-->
+                    <!--</el-table-column>-->
                 </el-table>
                 <el-pagination v-if="showPage" background layout="prev, pager, next"
                                :total="total" @current-change="handleCurrentChange">
@@ -161,14 +173,14 @@
                     <!--</div>-->
                 <!--</el-dialog>-->
             </div>
-            <div style="width: 500px; margin-left: 30px">
-                <h1 style="color: rgba(91, 191, 177, 1);">到期提醒</h1>
-                <el-table :data="tdd" >
-                    <el-table-column prop="groupname" label="企业名称" width="100">
+            <div style="width: 400px; margin-left: 30px">
+                <h1 style="color: red;">到期提醒</h1>
+                <el-table :data="tdd">
+                    <el-table-column prop="groupname" label="企业名称" width="100" align="center">
                     </el-table-column>
-                    <el-table-column prop="groupphone" label="联系方式" width="120">
+                    <el-table-column prop="groupphone" label="联系方式" width="120" align="center">
                     </el-table-column>
-                    <el-table-column prop="contractEndTime" label="到期时间" width="100" align="center">
+                    <el-table-column prop="contractEndTime" label="到期时间" width="110" align="center">
                     </el-table-column>
                 </el-table>
                 <el-pagination v-if="tdd_showPage" background layout="prev, pager, next"

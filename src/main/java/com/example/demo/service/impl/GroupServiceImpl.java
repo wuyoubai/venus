@@ -45,6 +45,11 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public List<Group> getGroupExpiredList(Group group) {
+        return groupMapper.getGroupExpiredList(group);
+    }
+
+    @Override
     public Group selectGroupByGroupname(String groupname) {
         return null;
     }

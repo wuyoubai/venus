@@ -10,6 +10,7 @@ public interface GroupService {
     int delete(int id);
     Group getGroup(int id);
     List<Group> getGroupList(Group group);
+    List<Group> getGroupExpiredList(Group group);
 
     Group selectGroupByGroupname(String groupname);
     Group selectGroupById(int id);

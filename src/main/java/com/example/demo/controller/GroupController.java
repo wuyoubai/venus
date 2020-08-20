@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,7 +37,12 @@ public class GroupController {
     @GetMapping("/groupRemind")
     public Result groupRemind(PageQO pageQO, Group group, HttpServletRequest request){
         Page<Group> page = PageHelper.startPage(pageQO.getPageNum(), pageQO.getPageSize());
-        List<Group> groups = groupService.getGroupList(group);
+        Date nowDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH,calendar.get(Calendar.MONTH)+1);
+        nowDate = calendar.getTime();
+        group.setContractEndTime(nowDate);
+        List<Group> groups = groupService.getGroupExpiredList(group);
         return Result.buildPageSuccess(page, groups);
     }
 

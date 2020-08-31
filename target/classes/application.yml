@@ -2,11 +2,20 @@
 spring:
   datasource:
   #解决数据库时间不对的问题，调整时区：serverTimezone=Asia/Shanghai
-    url: jdbc:mysql://127.0.0.1:3306/hunter?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+#  本地数据库
+#   url: jdbc:mysql://127.0.0.1:3306/hunter?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+#   腾讯云外网
+    url: jdbc:mysql://119.45.242.168:3306/hunter?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+#   腾讯云内网
+#    url: jdbc:mysql://10.206.0.2:3306/hunter?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
 
     driverClassName: com.mysql.jdbc.Driver
-    username: root
-    password: rootroot
+#    本地
+#    username: root
+#    password: rootroot
+#    腾讯云
+    username: baiwuyou
+    password: jiubugaosuni
     type: com.alibaba.druid.pool.DruidDataSource
   freemarker:
     checkTemplateLocation: false

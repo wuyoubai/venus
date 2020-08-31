@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <!-- import CSS -->
     <link rel="stylesheet" href="css/index.css">
-    <title>草包客</title>
+    <title>我是垃圾</title>
     <!-- import Vue before Element -->
     <script src="js/vue.js"></script>
     <!-- import JavaScript -->
@@ -112,7 +112,7 @@
         <div style="display: flex">
             <div style="width: 820px">
                 <h1 style="color: rgba(91, 191, 177, 1);">企业维护</h1>
-                <el-table :data="td" >
+                <el-table :data="td" @selection-change="handleSelectionChange">
                     <el-table-column type="selection" width="50">
                     </el-table-column>
                     <el-table-column label="序号" width="50" type="index" align="center">
@@ -421,7 +421,7 @@
                             <el-button size="mini" type="primary" @click="showAddForm('groupUserForm')">新增</el-button>
                             <el-button size="mini" type="primary" @click="showEditForm('groupUserForm',scope.row)">编辑</el-button>
                         </template>
-                    </el-form-item>
+                    </el-form-item> 
                 </el-form>
                 <el-table :data="td" ref="userTable" highlight-current-row stripe
                           @current-change="handleSelectChange" :default-sort = "{prop:'updatetime', order: 'descending'}">
@@ -538,8 +538,9 @@
                         </template>
                     </el-form-item>
                 </el-form>
+
                 <el-table :data="td" ref="userTable" highlight-current-row stripe
-                          @current-change="handleSelectChange" :default-sort = "{prop:'createtime', order: 'descending'}">
+                          @current-change="handleSelectChange" @row-click="handleRowClick" :default-sort = "{prop:'updatetime', order: 'descending'}">
                     <el-table-column
                             type="selection"
                             width="50">
@@ -575,6 +576,7 @@
                         </template>
                     </el-table-column>
                 </el-table>
+
                 <el-pagination v-if="showPage" background layout="prev, pager, next"
                                :total="total" @current-change="handleCurrentChange">
                 </el-pagination>
@@ -627,30 +629,6 @@
                 </el-dialog>
             </div>
         </div>
-        <div id="cut1-image-div" class="el-dialog__wrapper" style=" display: none; z-index: 2;background-color: rgba(30, 31, 33, 0.5)">
-            <div style="position: absolute; top: 100px; margin-left: 270px; padding: 20px;;background-color: white;">
-                <div style="display: flex">
-                    <div class="container" style="width: 800px;height: 450px">
-
-                    </div>
-                    <div style="text-align: center">
-                        <h3>预览</h3>
-                        <div class="small" style="width: 480px;height: 270px; overflow: hidden;margin: 10px 0 0 20px"></div>
-                        <div style="margin-top: 40px">
-                            <el-button @click="cancelCutPicture">取 消</el-button>
-                            <el-button style="margin-left: 30px" type="primary" @click="uploadCutPicture">确 定</el-button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div id="compress1-image-div" class="el-dialog__wrapper"
-             style=" display: none;background-color: rgba(30, 31, 33, 0.5); text-align: center; z-index: 3;">
-            <p style="color: #3399ff;margin-top: 400px;margin-top: 250px; font-size: 20px;">正在上传...</p>
-
-        </div>
-
     </div>
 </template>
 
@@ -790,10 +768,14 @@
                     tdd_total: 0,
                     cPage: 1,
                     tdd_showPage: false,
-                    showPage: false
+                    showPage: false,
+                    multipleSelection:[]
                 }
             },
             methods:{
+                handleSelectionChange(val) {
+                    this.multipleSelection = val;
+                },
                 showGroupDateForm: function(group){
                     if(group.groupStatus === 2){
                         this.$message({ message: '预约已经生效了哦！', type: 'warning'});
@@ -1413,6 +1395,19 @@
                         }
                     });
                 },
+                //点击行触发，选中或不选中复选框
+                handleRowClick(row) {
+                    this.$refs.userTable.toggleRowSelection(row);
+                },
+                toggleSelection(rows) {
+                    if (rows) {
+                        rows.forEach(row => {
+                            this.$refs.userTable.toggleRowSelection(row);
+                        });
+                    } else {
+                        this.$refs.multipleTable.clearSelection();
+                    }
+                },
                 handleSelectChange: function(val){
                     //选中某行，更新右边栏信息
                     if(!val)return;
@@ -1559,9 +1554,6 @@
                     that.td = res.data.list;
                     that.total = parseInt(res.data.total);
                     that.showPage = that.total > 0;
-                    // if(that.total > 0){
-                        // that.$refs.userTable.setCurrentRow(that.td[0]);
-                    // }
                 });
                 return {
                     td: [],
@@ -1573,7 +1565,7 @@
                     editFormVisible: false,
                     sloganFormVisible: false,
                     userForm:{
-                        id:'',
+                        id:null,
                         username: '',
                         realname: '',
                         isdel: '',
@@ -1599,175 +1591,30 @@
                 }
             },
             methods:{
-                cancelImage: function(){
-                    this.editCarIcon = false;
-                    this.editMainCarIcon = false;
-                    this.queryData($.extend({pageNum:this.cPage},this.queryParam));
+                handleSelectChange(val){
+                    console.log(val);
+                    this.userForm.id=val.id;
+                    this.userForm.username=val.username;
+                    this.userForm.realname=val.realname;
                 },
-                delCarImage: function(img){
-                    var imgArr = this.currentRow.carImages;
-                    for(var i = 0; i< imgArr.length; i++){
-                        if(imgArr[i].carImageId == img.carImageId){
-                            this.currentRow.carImages.splice(i, 1);
-                            break;
-                        }
-                    }
-                    this.delCarImageIds += img.carImageId + ','
+                //点击行触发，选中或不选中复选框
+                handleRowClick(row, column, event) {
+                    this.$refs.userTable.toggleRowSelection(row);
                 },
-                editCarImage: function(){
-                    //删除图片
-                    var that = this;
-                    this.editCarIcon = false;
-                    this.editMainCarIcon = false;
-                    if(this.delCarImageIds.length > 0){
-                        $.ajax({
-                            type: 'post',
-                            url: '/delCarImage',
-                            data: {delCarImageIds: this.delCarImageIds.substr(0, this.delCarImageIds.length - 1)},
-                            success: function(){
-                                that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-                            }
-                        })
-                    }
-                },
-                changeCarMainImage: function(){
-                    //修改主图
-                    var that = this;
-                    this.editCarIcon = false;
-                    this.editMainCarIcon = false;
-                    $.post('/changeMainImage', {carId: this.currentRow.carId, mainImageId: this.mainImgRadio.replace('la', '')}, function(){
-                        that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-                    })
-
-                },
-                cancelCutPicture: function(){
-                    $('#car_image_input').val('');
-                    $('#cut-image-div').css('display', 'none');
-                },
-                uploadCutPicture: function(){
-
-                    var doUpload = function(formData){
-                        $.ajax({
-                            url: "/uploadCarImag",
-                            type: 'POST',
-                            cache: false,
-                            data: formData,
-                            processData: false,
-                            contentType: false,
-                            dataType:"json",
-                            success : function(res) {
-                                if(res.code == 0){
-                                    that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-                                    that.$message({ message: '上传车辆图片成功！', type: 'success'});
-                                }else{
-                                    that.$message({ message: res.msg, type: 'error'});
-                                }
-                                $('#cut-image-div').css('display', 'none');
-                                $('#compress-image-div').css('display', 'none');
-                            },
-                            error:function(data){
-                            }
+                toggleSelection(rows) {
+                    if (rows) {
+                        rows.forEach(row => {
+                            this.$refs.userTable.toggleRowSelection(row);
                         });
-
-
-                        $('#car_image_input').val('');
-
-                    }
-                    var that = this;
-                    var cutPictureData = $('#cutImg').cropper('getData', true);
-                    var formData = new FormData($('#carImageForm')[0]);
-                    formData.append('x', cutPictureData.x);
-                    formData.append('y', cutPictureData.y);
-                    formData.append('width', cutPictureData.width);
-                    formData.append('height', cutPictureData.height);
-                    var fileObj = $('#car_image_input')[0].files[0];
-                    if(fileObj.size/1024 > 300) { //大于800k，进行压缩上传
-                        $('#compress-image-div').css('display', 'block');
-                        photoCompress(fileObj, { quality: 0.2 }, function(base64Codes){
-                            var bl = convertBase64UrlToBlob(base64Codes);
-                            formData.set("file", bl, "file_" + fileObj.name);
-                            doUpload(formData);
-                        });
-                    }else{
-                        doUpload(formData);
-                    }
-
-                },
-                handleUploadCarImage: function(){
-                    var msg = validateImageFile($('#car_image_input'));
-                    if(msg){
-                        this.$message({ message: msg, type: 'error'});
-                        return false;
-                    }
-                    this.cutPictureVisible = true;
-                    $('#cut-image-div').css('display', 'block');
-                    $('.container').empty()
-                    var $img = $("<img id='cutImg' src=''>");
-                    $('.container').append($img);
-                    $img.attr('src', '');
-                    var $file = $('#car_image_input');
-                    var fileObj = $file[0];
-                    var windowURL = window.URL || window.webkitURL;
-                    var dataURL;
-                    if (fileObj && fileObj.files && fileObj.files[0]) {
-                        dataURL = windowURL.createObjectURL(fileObj.files[0]);
-                        $img.attr('src', dataURL);
                     } else {
-                        dataURL = $file.val();
-                        var imgObj = document.getElementById("preview");
-                        // 两个坑:
-                        // 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
-                        // 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
-                        imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
-                        imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
-                    }
-                    $img.cropper({
-                        aspectRatio: 16 / 9,
-                        preview:".small",
-                        crop: function(event) {
-                            // console.log(event.detail.x);
-                            // console.log(event.detail.y);
-                            // console.log(event.detail.width);
-                            // console.log(event.detail.height);
-                            // console.log(event.detail.rotate);
-                            // console.log(event.detail.scaleX);
-                            // console.log(event.detail.scaleY);
-                        }
-                    });
-
-                },
-                uploadCarImg: function(){
-                    if(this.currentRow && this.currentRow.carId){
-                        $('#car_image_input').click();
+                        this.$refs.multipleTable.clearSelection();
                     }
                 },
-                handleSaveIntroduction: function(){
-                    var that = this;
-                    var parm = {carId:this.currentRow.carId, introduction: this.currentRow.introduction};
-                    $.post('/updateCar', parm, function(res){
-                        if(res.code === 0){
-                            that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-                            that.$message({ message: '详情介绍保存成功！', type: 'success'});
-                        }else{
-                            that.$message({ message: res.msg, type: 'error'});
-                        }
-                    });
+                clearSelection(){
+                    this.userForm=null;
                 },
-                handleSelectChange: function(val){
-                    //选中某行，更新右边栏信息
-                    if(!val)return;
-                    for(var i = 0; i< this.td.length; i++){
-                        if(this.td[i].carId === val.carId){
-                            this.currentRowIndex = i;
-                            break;
-                        }
-                    }
-                    this.currentRow = val;
-                    this.mainImgRadio = 'la' + val.mainImageId;
-                    this.remnant = 100;
-                    if(this.currentRow.introduction){
-                        this.remnant = 100 - this.currentRow.introduction.length;
-                    }
+                showSelectEditForm: function(formName){
+                    this.editFormVisible = true;
                 },
                 handleUpdateSlogan: function(formName){
                     var that = this;
@@ -1786,25 +1633,6 @@
                     });
 
                 },
-                handleUpdateIndex: function(value, car){
-                    var that = this;
-                    var updateParam = {carId:car.carId, carIndex:value};
-                    $.post('/updateCar', updateParam, function(res){
-                        if(res.code === 0){
-                            that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-                            that.$message({ message: '更新序号成功！', type: 'success'});
-
-                        }else{
-                            that.$message({ message: res.msg, type: 'error'});
-                        }
-                    });
-                },
-                showSloganForm: function(formName, car){
-                    Vue.set(this.sloganForm, 'carId', car.carId);
-                    Vue.set(this.sloganForm, 'carSlogan', car.carSlogan);
-                    this.sloganFormVisible = true;
-                    // this.$refs[formName].resetFields();
-                },
                 showAddForm: function(formName){
                     this.addFormVisible = true;
                     this.userForm.id=null;
@@ -1813,6 +1641,7 @@
                 },
                 showEditForm: function(formName,row){
                     this.editFormVisible = true;
+                    console.log(row);
                     this.userForm.id=row.id;
                     this.userForm.username=row.username;
                     this.userForm.realname=row.realname;

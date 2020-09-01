@@ -2,11 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.bean.Group;
 import com.example.demo.bean.vo.PageQO;
+import com.example.demo.result.Message;
 import com.example.demo.result.Result;
 import com.example.demo.service.interfaces.GroupService;
+import com.example.demo.utils.CommonUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -44,6 +47,31 @@ public class GroupController {
         group.setContractEndTime(nowDate);
         List<Group> groups = groupService.getGroupExpiredList(group);
         return Result.buildPageSuccess(page, groups);
+    }
+
+    @PostMapping("/editGroup")
+    public Result editGroup(Group group, HttpServletRequest request){
+        int updator = CommonUtils.sessionUser(request).getId();
+        if(groupService.getGroup(group.getId())==null){
+            return Result.buildBaseFail(Message.UNKNOWN_GROUP);
+        }
+        group.setUpdator(updator);
+        groupService.editGroup(group);
+        return Result.buildBaseSuccess();
+    }
+
+    @PostMapping("/addGroup")
+    public Result addGroup(Group group, HttpServletRequest request){
+        if (groupService.selectGroupByGroupname(group.getGroupname()) != null){
+            return Result.buildBaseFail(Message.DUPLICATE_GROUP);
+        }
+        int id = CommonUtils.sessionUser(request).getId();
+        group.setCreator(id);
+        group.setUpdator(id);
+        Date date = new Date();
+        group.setCreatetime(date);
+        groupService.addGroup(group);
+        return Result.buildBaseSuccess();
     }
 
 }

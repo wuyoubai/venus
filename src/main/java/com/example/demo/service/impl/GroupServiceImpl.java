@@ -21,12 +21,12 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public int addGroup(Group group) {
-        return 0;
+        return groupMapper.addGroup(group);
     }
 
     @Override
     public int editGroup(Group group) {
-        return 0;
+        return groupMapper.editGroup(group);
     }
 
     @Override

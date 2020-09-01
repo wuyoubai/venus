@@ -31,9 +31,6 @@ public class UserController {
         int id = CommonUtils.sessionUser(request).getId();
         user.setCreator(id);
         user.setUpdator(id);
-        Date date = new Date();
-        user.setCreatetime(date);
-        user.setUpdatetime(date);
         userService.addUser(user);
         return Result.buildBaseSuccess();
     }
@@ -45,8 +42,6 @@ public class UserController {
         }
         int id = CommonUtils.sessionUser(request).getId();
         user.setUpdator(id);
-        Date date = new Date();
-        user.setUpdatetime(date);
         userService.update(user);
         return Result.buildBaseSuccess();
     }

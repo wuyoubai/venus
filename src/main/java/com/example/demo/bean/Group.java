@@ -1,5 +1,7 @@
 package com.example.demo.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -17,6 +19,7 @@ public class Group {
     private Integer legalize;//认证：0认证,1未认证
     private Integer status;//状态：0启用,1禁用
     private Date contractStartTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date contractEndTime;
     private String remark;
     private Integer isdel;

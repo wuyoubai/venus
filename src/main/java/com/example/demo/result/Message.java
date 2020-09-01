@@ -27,6 +27,11 @@ public class Message {
     public static Message NO_PARAM_THIRD_SESSION = new Message(10201,"缺少参数third_session");
     public static Message WX_SESSION_EXPIRES = new Message(10202,"session 过期");
 
+    /**
+     * 103XX 企业模块
+     */
+    public static Message DUPLICATE_GROUP = new Message(10300,"企业名重复");
+    public static Message UNKNOWN_GROUP = new Message(10301,"该企业不存在");
 
 
 

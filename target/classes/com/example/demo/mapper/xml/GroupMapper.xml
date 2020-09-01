@@ -3,17 +3,19 @@
 <mapper namespace="com.example.demo.mapper.dao.GroupMapper">
 
     <insert id="addGroup">
-        insert into user(id,username,realname,creator,createtime,updator,updatetime)
-        values(#{id},#{username},#{realname},#{creator},#{createtime},#{updator},#{updatetime})
+        insert into hr_group(groupname,groupuser,groupphone,contract_end_time,remark,creator,createtime,updator)
+        values(#{groupname},#{groupuser},#{groupphone},#{contractEndTime},#{remark},#{creator},#{createtime},#{updator})
     </insert>
 
     <update id="editGroup">
-        update user
+        update hr_group
         <set>
-            username = #{username},
-            realname = #{realname},
-            updator = #{updator},
-            updatetime = #{updatetime}
+            groupname = #{groupname},
+            groupuser = #{groupuser},
+            groupphone = #{groupphone},
+            contract_end_time = #{contractEndTime},
+            remark = #{remark},
+            updator = #{updator}
         </set>
         where id = #{id}
     </update>

@@ -84,10 +84,6 @@
                     <i class="el-icon-document"></i>
                     <span slot="title">企业用户</span>
                 </el-menu-item>
-                <!--<el-menu-item index="4" @click="changeMenu(4)" class="menu-item-height">-->
-                    <!--<i class="el-icon-setting"></i>-->
-                    <!--<span slot="title">店面管理</span>-->
-                <!--</el-menu-item>-->
                 <el-menu-item index="3" @click="changeMenu(3)" class="menu-item-height">
                     <i class="el-icon-setting"></i>
                     <span slot="title">后台账户</span>
@@ -99,7 +95,6 @@
             <el-main>
                 <group-table v-if="showAndHide.group_table" :menush="showAndHide"></group-table>
                 <hr-table v-if="showAndHide.hr_table"></hr-table>
-                <!--<shop-table v-if="showAndHide.shop_table"></shop-table>-->
                 <internalusers-table v-if="showAndHide.internalusers_table"></internalusers-table>
             </el-main>
         </el-container>
@@ -112,6 +107,35 @@
         <div style="display: flex">
             <div style="width: 820px">
                 <h1 style="color: rgba(91, 191, 177, 1);">企业维护</h1>
+
+                <el-form class="demo-ruleForm" :inline="true">
+                    <el-form-item label="" style="width: 150px">
+                        <el-input type="text" size="mini" autocomplete="off" placeholder="企业名称" v-model="queryParam.groupname"></el-input>
+                    </el-form-item>
+                    <el-form-item label="" style="width: 80px">
+                        <el-select size="mini" placeholder="状态" v-model="queryParam.status">
+                            <el-option label="启用" value="0"></el-option>
+                            <el-option label="禁用" value="1"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="" style="width: 80px">
+                        <el-select size="mini" placeholder="认证" v-model="queryParam.legalize">
+                            <el-option label="已认证" value="0"></el-option>
+                            <el-option label="未认证" value="1"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button size="mini" type="primary" @click="handleQuery">搜索</el-button>
+                        <el-button size="mini" @click="handleReset">重置</el-button>
+                    </el-form-item>
+                    <el-form-item style="margin-left: 160px">
+                        <template slot-scope="scope">
+                            <el-button size="mini" type="primary" @click="showAddForm('groupForm')">新增</el-button>
+                            <el-button size="mini" type="primary" @click="showEditForm('groupForm',scope.row)">编辑</el-button>
+                        </template>
+                    </el-form-item>
+                </el-form>
+
                 <el-table :data="td" @selection-change="handleSelectionChange">
                     <el-table-column type="selection" width="50">
                     </el-table-column>
@@ -139,39 +163,18 @@
                     </el-table-column>
                     <el-table-column label="备注" width="100" align="center">
                         <template slot-scope="scope">
-                            <el-popover trigger="hover" placement="top">
-                                <div word-break="break-all" width="300">{{ scope.row.remark }}</div>
+                            <el-popover trigger="hover" placement="top" width="200">
+                                <div word-break="break-all">{{ scope.row.remark }}</div>
                                 <div slot="reference" class="name-wrapper">
                                     <el-tag size="medium">详情</el-tag>
                                 </div>
                             </el-popover>
                         </template>
                     </el-table-column>
-                    <!--<el-table-column label="操作" width="150">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<el-button size="mini"-->
-                                       <!--@click="showGroupDateForm(scope.row)">生效</el-button>-->
-                            <!--<el-button size="mini" type="danger"-->
-                                       <!--@click="handleInvalid(scope.row)">失效</el-button>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
                 </el-table>
                 <el-pagination v-if="showPage" background layout="prev, pager, next"
                                :total="total" @current-change="handleCurrentChange">
                 </el-pagination>
-                <!--<el-dialog title="请输入预约时间" :visible.sync="groupDateFormVisible" :width="groupDateFormWidth">-->
-                    <!--<el-form :model="groupDateForm" ref="groupDateForm">-->
-                        <!--<el-form-item prop="groupDate" label="" required :rules="[-->
-                            <!--{required: true, message: '请输入预约时间'}]">-->
-                            <!--<el-date-picker v-model="groupDateForm.groupDate" type="datetime" placeholder="选择预约时间" format="yyyy-MM-dd HH:mm:ss"-->
-                                            <!--value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>-->
-                        <!--</el-form-item>-->
-                    <!--</el-form>-->
-                    <!--<div slot="footer" class="dialog-footer">-->
-                        <!--<el-button @click="groupDateFormVisible = false">取 消</el-button>-->
-                        <!--<el-button type="primary" @click="handleEffect('groupDateForm')">确 定</el-button>-->
-                    <!--</div>-->
-                <!--</el-dialog>-->
             </div>
             <div style="width: 400px; margin-left: 30px">
                 <h1 style="color: red;">到期提醒</h1>
@@ -187,215 +190,103 @@
                                :total="tdd_total" @current-change="handleTddCurrentChange">
                 </el-pagination>
             </div>
+
+            <el-dialog title="新增企业" :visible.sync="addFormVisible" :width="addFormWidth">
+                <el-form :model="groupForm" ref="groupForm">
+                    <el-form-item :label-width="formLabelWidth" prop="groupname" label="企业名" required :rules="[
+                            {required: true, message: '请输入企业名' },
+                            {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
+                            {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
+                        ]">
+                        <el-input type="groupname" v-model="groupForm.groupname" autocomplete="off"></el-input>
+                    </el-form-item>
+
+                    <el-form-item :label-width="formLabelWidth" prop="groupuser" label="联系人" required :rules="[
+                            {required: true, message: '请输入联系人' },
+                            {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
+                            {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
+                        ]">
+                        <el-input type="groupuser" v-model="groupForm.groupuser" autocomplete="off"></el-input>
+                    </el-form-item>
+
+                    <el-form-item :label-width="formLabelWidth" prop="groupphone" label="联系方式" required :rules="[
+                            {required: true, message: '请输入联系方式' }
+                        ]">
+                        <el-input type="contractEndTime" v-model="groupForm.groupphone" autocomplete="off"></el-input>
+                    </el-form-item>
+
+                    <el-form-item :label-width="formLabelWidth" prop="contractEndTime" label="到期时间">
+                        <el-date-picker
+                                v-model="groupForm.contractEndTime"
+                                align="right"
+                                type="date"
+                                placeholder="选择日期"
+                                :picker-options="pickerOptions">
+                        </el-date-picker>
+                    </el-form-item>
+
+                    <el-form-item :label-width="formLabelWidth" prop="remark" label="备注" required :rules="[
+                            {required: true, message: '请输入备注' }
+                        ]">
+                        <el-input type="remark" v-model="groupForm.remark" autocomplete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="addFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="handleAddGroup('groupForm')">确 定</el-button>
+                </div>
+            </el-dialog>
+
+            <el-dialog title="编辑企业" :visible.sync="editFormVisible" :width="editFormWidth">
+                <el-form :model="groupForm" ref="groupForm">
+                    <el-form-item :label-width="formLabelWidth" prop="groupname" label="企业名" required :rules="[
+                            {required: true, message: '请输入企业名' },
+                            {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
+                            {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
+                        ]">
+                        <el-input type="groupname" v-model="groupForm.groupname" autocomplete="off"></el-input>
+                    </el-form-item>
+
+                    <el-form-item :label-width="formLabelWidth" prop="groupuser" label="联系人" required :rules="[
+                            {required: true, message: '请输入联系人' },
+                            {min: 2, max: 20, message: '长度在 2 到 20 个字符' },
+                            {pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}
+                        ]">
+                        <el-input type="groupuser" v-model="groupForm.groupuser" autocomplete="off"></el-input>
+                    </el-form-item>
+
+                    <el-form-item :label-width="formLabelWidth" prop="groupphone" label="联系方式" required :rules="[
+                            {required: true, message: '请输入联系方式' }
+                        ]">
+                        <el-input type="contractEndTime" v-model="groupForm.groupphone" autocomplete="off"></el-input>
+                    </el-form-item>
+
+                    <el-form-item :label-width="formLabelWidth" prop="contractEndTime" label="到期时间">
+                        <el-date-picker
+                                v-model="groupForm.contractEndTime"
+                                align="right"
+                                type="date"
+                                placeholder="选择日期"
+                                :picker-options="pickerOptions">
+                        </el-date-picker>
+                    </el-form-item>
+
+                    <el-form-item :label-width="formLabelWidth" prop="remark" label="备注" required :rules="[
+                            {required: true, message: '请输入备注' }
+                        ]">
+                        <el-input type="remark" v-model="groupForm.remark" autocomplete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="editFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="handleEditGroup('groupForm')">确 定</el-button>
+                </div>
+            </el-dialog>
+
         </div>
     </div>
 </template>
-
-<!--<template id="car-table">-->
-    <!--<div class="block">-->
-        <!--<div style="display: flex">-->
-            <!--<div style="width: 720px">-->
-                <!--<h1 style="color: rgba(91, 191, 177, 1);">车辆管理</h1>-->
-                <!--<el-form class="demo-ruleForm" :inline="true">-->
-                    <!--<el-form-item label="" style="width: 180px">-->
-                        <!--<el-input type="text" size="mini" autocomplete="off" placeholder="品牌车型" v-model="queryParam.carName"></el-input>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item label="" style="width: 150px">-->
-                        <!--<el-select size="mini" placeholder="状态" v-model="queryParam.carStatus">-->
-                            <!--<el-option label="已发布" value="2"></el-option>-->
-                            <!--<el-option label="待发布" value="1"></el-option>-->
-                            <!--<el-option label="已撤销" value="3"></el-option>-->
-                        <!--</el-select>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item>-->
-                        <!--<el-button size="mini" type="primary" @click="handleQuery">搜索</el-button>-->
-                        <!--<el-button size="mini" @click="handleReset">重置</el-button>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item style="margin-left: 130px">-->
-                        <!--<el-button size="mini" type="primary" @click="showAddForm('carForm')">新增</el-button>-->
-                    <!--</el-form-item>-->
-                <!--</el-form>-->
-                <!--<el-table :data="td" ref="carTable" highlight-current-row-->
-                          <!--@current-change="handleSelectChange">-->
-                    <!--<el-table-column label="品牌车型" width="120">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<span>{{ scope.row.carName }}</span>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                    <!--<el-table-column label="价格区间" width="120">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<span>{{ scope.row.carPriceMin }}万-{{ scope.row.carPriceMax }}万</span>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                    <!--<el-table-column label="状态" width="80">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<span>{{ carStatusText(scope.row.carStatus) }}</span>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                    <!--<el-table-column label="宣传语" width="80">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<span>{{ scope.row.carSlogan }}</span>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                    <!--<el-table-column label="序列号" width="80">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<el-input class="row-input" style="width: 100%;" @change="handleUpdateIndex($event, scope.row)" v-model="scope.row.carIndex" autocomplete="off"></el-input>-->
-                            <!--&lt;!&ndash;<span>{{ scope.row.carIndex }}</span>&ndash;&gt;-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                    <!--<el-table-column label="操作" align="center"  width="230">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<el-button size="mini"-->
-                                       <!--@click="handlePublish(scope.row)">发布</el-button>-->
-                            <!--<el-button size="mini" type="danger"-->
-                                       <!--@click="handleRevoke(scope.row)">撤销</el-button>-->
-                            <!--<el-button size="mini" type="danger"-->
-                                       <!--@click="showSloganForm('sloganForm',scope.row)">宣传语</el-button>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                <!--</el-table>-->
-                <!--<el-pagination v-if="showPage" background layout="prev, pager, next"-->
-                               <!--:total="total" @current-change="handleCurrentChange">-->
-                <!--</el-pagination>-->
-                <!--<el-dialog title="请输入宣传语" :visible.sync="sloganFormVisible" :width="sloganFormWidth">-->
-                    <!--<el-form :model="sloganForm" ref="sloganForm">-->
-                        <!--<el-form-item prop="carSlogan" label="" required :rules="[-->
-                            <!--{required: true, message: '请输入宣传语' },-->
-                            <!--{min: 2, max: 5, message: '长度在 2 到 6 个字符' },-->
-                            <!--{pattern: /^[\w\u4E00-\u9FA5]+$/, message: '不能有特殊字符'}-->
-                        <!--]">-->
-                            <!--<el-input v-model="sloganForm.carSlogan" placeholder="不要超过6个字哦" autocomplete="off"></el-input>-->
-                        <!--</el-form-item>-->
-                    <!--</el-form>-->
-                    <!--<div slot="footer" class="dialog-footer">-->
-                        <!--<el-button @click="sloganFormVisible = false">取 消</el-button>-->
-                        <!--<el-button type="primary" @click="handleUpdateSlogan('sloganForm')">确 定</el-button>-->
-                    <!--</div>-->
-                <!--</el-dialog>-->
-                <!--<el-dialog title="新增车辆" :visible.sync="addFormVisible" :width="addFormWidth">-->
-                    <!--<el-form :model="carForm" ref="carForm">-->
-                        <!--<el-form-item prop="carName" label="品牌车型" :label-width="formLabelWidth" required :rules="[-->
-                            <!--{required: true, message: '请输入品牌车型' },-->
-                            <!--{min: 2, max: 20, message: '长度在 2 到 20 个字符' },-->
-                            <!--{pattern: /^[\w\u4E00-\u9FA5-]+$/, message: '不能有特殊字符'}-->
-                        <!--]">-->
-                            <!--<el-input v-model="carForm.carName" autocomplete="off"></el-input>-->
-                        <!--</el-form-item>-->
-                        <!--<el-form-item label="价格区间" :label-width="formLabelWidth" required>-->
-                            <!--<el-col :span="11">-->
-                                <!--<el-form-item prop="carPriceMin" required :rules="[-->
-                            <!--{ required: true, message: '最小价格不能为空'},-->
-                            <!--{pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1})?$/, message: '必须数字，允许一位小数'}-->
-                        <!--]">-->
-                                    <!--<el-input style="width: 100%" v-model="carForm.carPriceMin" placeholder="万元" autocomplete="off"></el-input>-->
-                                <!--</el-form-item>-->
-                            <!--</el-col>-->
-                            <!--<el-col class="line" :span="2">-</el-col>-->
-                            <!--<el-col :span="11">-->
-                                <!--<el-form-item prop="carPriceMax" required :rules="[-->
-                            <!--{ required: true, message: '最大价格不能为空'},-->
-                            <!--{pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1})?$/, message: '必须数字，允许一位小数'}-->
-                        <!--]">-->
-                                    <!--<el-input style="width: 100%" v-model="carForm.carPriceMax" placeholder="万元" autocomplete="off"></el-input>-->
-                                <!--</el-form-item>-->
-                            <!--</el-col>-->
-                        <!--</el-form-item>-->
-                        <!--<el-form-item label="宣传语" :label-width="formLabelWidth" prop="carSlogan" required :rules="[-->
-                            <!--{required: true, message: '请输入宣传语' },-->
-                            <!--{min: 2, max: 5, message: '长度在 2 到 5 个字符' },-->
-                            <!--{pattern: /^[\w\u4E00-\u9FA5]+$/, message: '宣传语不能有特殊字符'}-->
-                        <!--]">-->
-                            <!--<el-input v-model="carForm.carSlogan" autocomplete="off"></el-input>-->
-                        <!--</el-form-item>-->
-                    <!--</el-form>-->
-                    <!--<div slot="footer" class="dialog-footer">-->
-                        <!--<el-button @click="addFormVisible = false">取 消</el-button>-->
-                        <!--<el-button type="primary" @click="handleAddCar('carForm')">确 定</el-button>-->
-                    <!--</div>-->
-                <!--</el-dialog>-->
-            <!--</div>-->
-            <!--<div style="width: 500px; margin-left: 50px;">-->
-                <!--<h1 style="color: rgba(91, 191, 177, 1);">车型图片</h1>-->
-                <!--<div style="width: 100%; background-color: white; padding: 10px">-->
-                    <!--<div style="width: 100%; ">-->
-                        <!--<h5 >详情介绍</h5>-->
-                        <!--<div>-->
-                            <!--<el-input-->
-                                    <!--type="textarea"-->
-                                    <!--:rows="6"-->
-                                    <!--placeholder="请输入内容"-->
-                                    <!--v-model="currentRow.introduction" maxlength="200" @input="remnant = 100 - currentRow.introduction.length">-->
-                            <!--</el-input>-->
-                            <!--<el-button type="primary"  size="min" style="position: relative;top: -32px;-->
-                            <!--float: right; margin-right: 15px; padding: 6px 10px" @click="handleSaveIntroduction">保存</el-button>-->
-                            <!--<span style="position: relative; float: right; margin-right: 10px; top: -24px; color: #909399">{{remnant}}/100</span>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div :style="carPictureStyle">-->
-                        <!--<h5 >展示图片</h5>-->
-                        <!--<div>-->
-                            <!--<div style="color: rgb(91, 191, 177);display:block;height:28px;width: 100%">-->
-                                <!--<div style="float: right">-->
-                                    <!--<span v-if="!editCarIcon && !editMainCarIcon" @click="editMainCarIcon=true" style="cursor: pointer">设置封面</span>-->
-                                    <!--<span v-if="!editCarIcon && !editMainCarIcon" @click="editCarIcon=true;delCarImageIds=''" style="cursor: pointer; margin:0 10px 0 10px;">编辑</span>-->
-                                    <!--<span v-if="editCarIcon || editMainCarIcon" @click="cancelImage" style="cursor: pointer; margin:0 10px 0 0;">取消</span>-->
-                                    <!--<span v-if="editMainCarIcon" @click="changeCarMainImage" style="cursor: pointer; margin:0 10px 0 0;">完成</span>-->
-                                    <!--<span v-if="editCarIcon" @click="editCarImage" style="cursor: pointer; margin:0 10px 0 0;">完成</span>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<el-radio-group v-model="mainImgRadio">-->
-                                <!--<div v-for="(img, index) in currentRow.carImages" style="float: left;width: 244px;margin: 3px;">-->
-                                    <!--<div style="display: inline-block">-->
-                                        <!--<img style="border-radius: 5px; height: 150px; width: 244px;"-->
-                                             <!--:src="'/getImage?url='+img.url">-->
-                                    <!--</div>-->
-                                    <!--<span @click="delCarImage(img)"-->
-                                            <!--v-if="editCarIcon" style="font-size:14px; line-height:0px; color:red;-->
-                                            <!--display: inline-block; margin-right: 4px; position: relative;float: right;-->
-                                            <!--top: -140px; cursor: pointer">X</span>-->
-                                    <!--<el-radio v-if="editMainCarIcon" :label="'la' + img.carImageId"-->
-                                              <!--style="height:0px; display: inline-block;-->
-                                              <!--margin-right: 4px; position: relative;float: right; top: -146px;"></el-radio>-->
-                                <!--</div>-->
-                                <!--<div v-if="!editCarIcon && !editMainCarIcon" @click="uploadCarImg" style="float: left;cursor: pointer;text-align: center; width: 244px;margin: 2px; border: 1px solid #cccccc; border-radius: 5px; height: 150px">-->
-                                    <!--<span style="font-size: 80px; color: #888888; font-weight: 700; height: 150px; line-height: 150px">+</span>-->
-                                <!--</div>-->
-                            <!--</el-radio-group>-->
-                        <!--</div>-->
-                        <!--<form style="display: none;" method="post" id="carImageForm" enctype="multipart/form-data">-->
-                            <!--<input type="file" name="file" id="car_image_input" @change="handleUploadCarImage">-->
-                            <!--<input type="text" name="carId" v-model="currentRow.carId">-->
-                        <!--</form>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div id="cut-image-div" class="el-dialog__wrapper" style=" display: none; z-index: 2;background-color: rgba(30, 31, 33, 0.5)">-->
-            <!--<div style="position: absolute; top: 100px; margin-left: 270px; padding: 20px;;background-color: white;">-->
-                <!--<div style="display: flex">-->
-                    <!--<div class="container" style="width: 800px;height: 450px">-->
-
-                    <!--</div>-->
-                    <!--<div style="text-align: center">-->
-                        <!--<h3>预览</h3>-->
-                        <!--<div class="small" style="width: 480px;height: 270px; overflow: hidden;margin: 10px 0 0 20px"></div>-->
-                        <!--<div style="margin-top: 40px">-->
-                            <!--<el-button @click="cancelCutPicture">取 消</el-button>-->
-                            <!--<el-button style="margin-left: 30px" type="primary" @click="uploadCutPicture">确 定</el-button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-
-        <!--</div>-->
-        <!--<div id="compress-image-div" class="el-dialog__wrapper"-->
-             <!--style=" display: none;background-color: rgba(30, 31, 33, 0.5); text-align: center; z-index: 3;">-->
-            <!--<p style="color: #3399ff;margin-top: 400px;margin-top: 250px; font-size: 20px;">正在上传...</p>-->
-
-        <!--</div>-->
-
-    <!--</div>-->
-<!--</template>-->
 
 <template id="hr-table">
     <div class="block">
@@ -632,101 +523,6 @@
     </div>
 </template>
 
-<!--<template id="shop-table">-->
-    <!--<div class="block">-->
-        <!--<div style="display: flex">-->
-            <!--<div style="width: 600px">-->
-                <!--<h1 style="color: rgba(91, 191, 177, 1);">门店管理</h1>-->
-                <!--<el-table :data="td" style="width: 100%">-->
-                    <!--<el-table-column label="店铺名称" width="150">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<span>{{ scope.row.shopName }}</span>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                    <!--<el-table-column label="地址" width="200">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<span>{{ scope.row.address }}</span>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                    <!--<el-table-column label="服务热线" width="150">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<span>{{ scope.row.telephone }}</span>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                    <!--<el-table-column label="操作" >-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<el-button size="mini" type="primary"-->
-                                       <!--@click="updateFormVisible = true">编辑</el-button>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                <!--</el-table>-->
-                <!--<el-dialog title="编辑门店信息" :visible.sync="updateFormVisible" :width="formWidth">-->
-                    <!--<el-form :model="shop" ref="shopForm">-->
-                        <!--<el-form-item prop="shopName" label="门店名称" :label-width="formLabelWidth" required :rules="[-->
-                            <!--{required: true, message: '请输入门店名称' },-->
-                            <!--{min: 2, max: 10, message: '长度在 2 到 10 个字符' },-->
-                            <!--{pattern: /^[\w\u4E00-\u9FA5]+$/, message: '不能有特殊字符'}-->
-                        <!--]">-->
-                            <!--<el-input v-model="shop.shopName" autocomplete="off"></el-input>-->
-                        <!--</el-form-item>-->
-                        <!--<el-form-item label="地址" :label-width="formLabelWidth" prop="address" required :rules="[-->
-                            <!--{required: true, message: '请输入地址' },-->
-                            <!--{min: 2, max: 128, message: '长度在 2 到 128 个字符' },-->
-                            <!--{pattern: /^[\w\u4E00-\u9FA5]+$/, message: '地址不能有特殊字符'}-->
-                        <!--]">-->
-                            <!--<el-input v-model="shop.address" autocomplete="off"></el-input>-->
-                        <!--</el-form-item>-->
-                        <!--<el-form-item label="服务热线" :label-width="formLabelWidth" prop="telephone" required :rules="[-->
-                            <!--{required: true, message: '请输入服务热线' },-->
-                            <!--{min: 2, max: 32, message: '长度在 2 到 32 个字符' },-->
-                            <!--{pattern: /^[\w\u4E00-\u9FA5]+$/, message: '服务热线不能有特殊字符'}-->
-                        <!--]">-->
-                            <!--<el-input v-model="shop.telephone" autocomplete="off"></el-input>-->
-                        <!--</el-form-item>-->
-                    <!--</el-form>-->
-                    <!--<div slot="footer" class="dialog-footer">-->
-                        <!--<el-button @click="updateFormVisible = false">取 消</el-button>-->
-                        <!--<el-button type="primary" @click="handleUpdateShop">确 定</el-button>-->
-                    <!--</div>-->
-                <!--</el-dialog>-->
-            <!--</div>-->
-            <!--<div style="width: 500px; margin-left: 50px;">-->
-                <!--<h1 style="color: rgba(91, 191, 177, 1);">门店管理</h1>-->
-                <!--<div style="width: 100%; background-color: white; padding: 10px">-->
-                    <!--<div style="width: 500px;height: 380px">-->
-                        <!--<h5 >门店图片</h5>-->
-                        <!--<div style="color: rgb(91, 191, 177);display:block;height:28px;width: 100%">-->
-                            <!--<div style="float: right">-->
-                                <!--<span v-if="!editCarIcon" @click="editCarIcon=true" style="cursor: pointer; margin:0 10px 0 10px;">编辑</span>-->
-                                <!--<span v-if="editCarIcon" @click="cancelImage" style="cursor: pointer; margin:0 10px 0 0;">取消</span>-->
-                                <!--<span v-if="editCarIcon" @click="editCarImage" style="cursor: pointer; margin:0 10px 0 0;">完成</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div>-->
-                            <!--<div>-->
-                                <!--<img v-if="shop.shopImage" style="width: 500px;margin: 3px; border-radius: 5px;float: left; height: 300px"-->
-                                     <!--:src="'/getImage?url='+shop.shopImage">-->
-                                <!--<span @click="delCarImage()"-->
-                                      <!--v-if="editCarIcon" style="font-size:24px; line-height:0px; color:red;-->
-                                            <!--display: inline-block; margin-right: 5px; position: relative;float: right;-->
-                                            <!--top: -288px; cursor: pointer">X</span>-->
-                            <!--</div>-->
-                            <!--<div v-if="!shop.shopImage" @click="uploadShopImg" style="float: left;cursor: pointer;text-align: center; width: 500px;margin: 2px; border: 1px solid #cccccc; border-radius: 5px; height: 300px">-->
-                                <!--<span style="font-size: 80px; color: #888888; font-weight: 700; height: 300px; line-height: 300px">+</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<form style="display: none;" method="post" id="shopImageForm" enctype="multipart/form-data">-->
-                            <!--<input type="file" name="file" id="shop_image_input" @change="handleUploadShopImage">-->
-                            <!--<input type="text" name="shopId" v-model="shop.shopId">-->
-                        <!--</form>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-
-    <!--</div>-->
-<!--</template>-->
-
 </body>
 
 <script>
@@ -753,11 +549,50 @@
                         console.log('change...')
                         return false;
                     }
-                    setTimeout(queryGroupList,10000);
+                    setTimeout(queryGroupList,60000);
                 })();
                 return {
+                    pickerOptions: {
+                        disabledDate(time) {
+                            return time.getTime() < Date.now();
+                        },
+                        shortcuts: [{
+                            text: '今天',
+                            onClick(picker) {
+                                picker.$emit('pick', new Date());
+                            }
+                        }, {
+                            text: '明天',
+                            onClick(picker) {
+                                const date = new Date();
+                                date.setTime(date.getTime() + 3600 * 1000 * 24);
+                                picker.$emit('pick', date);
+                            }
+                        }, {
+                            text: '一周后',
+                            onClick(picker) {
+                                const date = new Date();
+                                date.setTime(date.getTime() + 3600 * 1000 * 24 * 7);
+                                picker.$emit('pick', date);
+                            }
+                        }]
+                    },
                     td: [],
                     tdd: [],
+                    addFormVisible: false,
+                    editFormVisible: false,
+                    addFormWidth: '38%',
+                    editFormWidth: '38%',
+                    formLabelWidth: '120px',
+                    groupForm:{
+                        id:'',
+                        groupname: '',
+                        groupuser: '',
+                        groupphone: '',
+                        contractEndTime: '',
+                        remark:''
+                    },
+                    queryParam: {groupname:'',status:'',legalize:''},
                     groupDateForm: {
                         groupDate: ''
                     },
@@ -775,6 +610,13 @@
             methods:{
                 handleSelectionChange(val) {
                     this.multipleSelection = val;
+                    var index = val.length-1;
+                    this.groupForm.id=val[index].id;
+                    this.groupForm.groupname=val[index].groupname;
+                    this.groupForm.groupuser=val[index].groupuser;
+                    this.groupForm. groupphone=val[index].groupphone;
+                    this.groupForm.contractEndTime=val[index].contractEndTime;
+                    this.groupForm.remark=val[index].remark;
                 },
                 showGroupDateForm: function(group){
                     if(group.groupStatus === 2){
@@ -785,56 +627,22 @@
                     this.groupDateForm.groupDate = group.groupDate;
                     this.groupDateFormVisible = true;
                 },
-                queryData: function(url, param, tableData){
+                queryData: function(param){
                     var that = this;
                     $.ajax({
-                        url: url,
+                        url: "/listGroup",
                         type:'get',
                         data: param,
                         success:function(res){
-                            if(tableData){
-                                that[tableData] = res.data.list;
-                                if(tableData === 'tdd'){
-                                    that.tdd_total = parseInt(res.data.total);
-                                    that.tdd_showPage = res.data.total > 0;
-                                }
-                            }
+                            that.td = res.data.list;
                         }
                     });
                 },
-                handleEffect: function(group){
-                    var that = this;
-                    this.$refs.groupDateForm.validate(function(valid) {
-                        if (valid) {
-                            $.post('/effectGroup', that.groupDateForm, function(res){
-                                if(res.code === 0){
-                                    that.queryData('/listGroup', {pageNum:that.cPage}, 'td');
-                                    that.queryData('/groupRemind', {pageNum:that.cPage}, 'tdd');
-                                    that.$message({ message: '预约生效成功！', type: 'success'});
-                                    that.groupDateFormVisible = false;
-                                }else{
-                                    that.$message({ message: res.msg, type: 'error'});
-                                }
-                            });
-                        }else{
-                            return false;
-                        }
-                    });
+                handleQuery: function(){
+                    this.queryData($.extend({pageNum:1},this.queryParam));
                 },
-                handleInvalid: function(group){
-                    if(group.groupStatus === 3){
-                        this.$message({ message: '预约已经失效了哦！', type: 'warning'});
-                        return;
-                    }
-                    var that = this;
-                    this.$confirm('确定要对此预约进行失效处理吗?', '提示',
-                        {confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(function () {
-                        $.post('/invalidGroup',{groupId: group.groupId},function(){
-                            that.queryData('/listGroup', {pageNum:that.cPage}, 'td');
-                            that.queryData('/groupRemind', {pageNum:that.cPage}, 'tdd');
-                            that.$message({ message: '预约经失成功！', type: 'success'});
-                        });
-                    })
+                handleReset: function(){
+                    this.queryParam = {groupname:'',status:'',legalize:''}
                 },
                 groupStatusText: function(value){
                     var statusDict = {
@@ -862,338 +670,65 @@
                     $.get('/listGroup?pageNum=' + cPage, function(res){
                         that.td = res.data.list;
                     });
+                },
+                showAddForm: function(formName){
+                    this.addFormVisible = true;
+                    this.groupForm.groupname=null;
+                    this.groupForm.groupuser=null;
+                    this.groupForm. groupphone=null;
+                    this.groupForm.contractEndTime=null;
+                    this.groupForm.remark=null;
+                },
+                handleAddGroup: function(formName){
+                    var that = this;
+                    this.$refs[formName].validate(function(valid) {
+                        if (valid) {
+                            $.post('/addGroup',that.groupForm,function(res){
+                                if(res.code === 0){
+                                    that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+                                    that.$message({ message: '新增企业成功！', type: 'success'});
+                                    that.addFormVisible = false;
+                                }else{
+                                    that.$message({ message: res.msg, type: 'error'});
+                                }
+                            });
+                        } else {
+                            return false;
+                        }
+                    });
+                },
+                showEditForm: function(formName,row){
+                    console.log(row)
+                    this.editFormVisible = true;
+                    this.groupForm.id=row.id;
+                    this.groupForm.groupname=row.groupname;
+                    this.groupForm.groupuser=row.groupuser;
+                    this.groupForm. groupphone=row.groupphone;
+                    this.groupForm.contractEndTime=row.contractEndTime;
+                    this.groupForm.remark=row.remark;
+                },
+                handleEditGroup: function(formName){
+                    var that = this;
+                    this.$refs[formName].validate(function(valid) {
+                        if (valid) {
+                            $.post('/editGroup',that.groupForm,function(res){
+                                if(res.code === 0){
+                                    that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+                                    that.$message({ message: '编辑企业成功！', type: 'success'});
+                                    that.editFormVisible = false;
+                                }else{
+                                    that.$message({ message: res.msg, type: 'error'});
+                                }
+                            });
+                        } else {
+                            return false;
+                        }
+                    });
                 }
             },
             template:'#group-table'
         },
-        // 'car-table':{
-        //     data:function(){
-        //         var that = this;
-        //         $.get('/bgListCar',function(res){
-        //             that.td = res.data.list;
-        //             that.total = parseInt(res.data.total);
-        //             that.showPage = that.total > 0;
-        //             if(that.total > 0){
-        //                 that.$refs.carTable.setCurrentRow(that.td[0]);
-        //             }
-        //         });
-        //         return {
-        //             td: [],
-        //             total: 0,
-        //             cPage: 1,
-        //             showPage: false,
-        //             queryParam: {carName:'',carStatus:''},
-        //             addFormVisible: false,
-        //             sloganFormVisible: false,
-        //             carForm:{
-        //                 carName: '',
-        //                 carPriceMin: '',
-        //                 carPriceMax: '',
-        //                 carSlogan: ''
-        //             },
-        //             sloganForm:{},
-        //             currentRow: {},
-        //             currentRowIndex: 0,
-        //             remnant: 100,
-        //             formLabelWidth: '120px',
-        //             addFormWidth: '28%',
-        //             sloganFormWidth: '25%',
-        //             carPictureStyle: {width: '500px',height: '400px'},
-        //             editCarIcon: false,
-        //             editMainCarIcon: false,
-        //             mainImage: '',
-        //             mainImgRadio:'',
-        //             delCarImageIds: '',
-        //             cutPictureVisible: false
-        //
-        //         }
-        //     },
-        //     methods:{
-        //         cancelImage: function(){
-        //             this.editCarIcon = false;
-        //             this.editMainCarIcon = false;
-        //             this.queryData($.extend({pageNum:this.cPage},this.queryParam));
-        //         },
-        //         delCarImage: function(img){
-        //             var imgArr = this.currentRow.carImages;
-        //             for(var i = 0; i< imgArr.length; i++){
-        //                 if(imgArr[i].carImageId == img.carImageId){
-        //                     this.currentRow.carImages.splice(i, 1);
-        //                     break;
-        //                 }
-        //             }
-        //             this.delCarImageIds += img.carImageId + ','
-        //         },
-        //         editCarImage: function(){
-        //             //删除图片
-        //             var that = this;
-        //             this.editCarIcon = false;
-        //             this.editMainCarIcon = false;
-        //             if(this.delCarImageIds.length > 0){
-        //                 $.ajax({
-        //                     type: 'post',
-        //                     url: '/delCarImage',
-        //                     data: {delCarImageIds: this.delCarImageIds.substr(0, this.delCarImageIds.length - 1)},
-        //                     success: function(){
-        //                         that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-        //                     }
-        //                 })
-        //             }
-        //         },
-        //         changeCarMainImage: function(){
-        //             //修改主图
-        //             var that = this;
-        //             this.editCarIcon = false;
-        //             this.editMainCarIcon = false;
-        //             $.post('/changeMainImage', {carId: this.currentRow.carId, mainImageId: this.mainImgRadio.replace('la', '')}, function(){
-        //                 that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-        //             })
-        //
-        //         },
-        //         cancelCutPicture: function(){
-        //             $('#car_image_input').val('');
-        //             $('#cut-image-div').css('display', 'none');
-        //         },
-        //         uploadCutPicture: function(){
-        //
-        //             var doUpload = function(formData){
-        //                 $.ajax({
-        //                     url: "/uploadCarImag",
-        //                     type: 'POST',
-        //                     cache: false,
-        //                     data: formData,
-        //                     processData: false,
-        //                     contentType: false,
-        //                     dataType:"json",
-        //                     success : function(res) {
-        //                         if(res.code == 0){
-        //                             that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-        //                             that.$message({ message: '上传车辆图片成功！', type: 'success'});
-        //                         }else{
-        //                             that.$message({ message: res.msg, type: 'error'});
-        //                         }
-        //                         $('#cut-image-div').css('display', 'none');
-        //                         $('#compress-image-div').css('display', 'none');
-        //                     },
-        //                     error:function(data){
-        //                     }
-        //                 });
-        //
-        //
-        //                 $('#car_image_input').val('');
-        //
-        //             }
-        //             var that = this;
-        //             var cutPictureData = $('#cutImg').cropper('getData', true);
-        //             var formData = new FormData($('#carImageForm')[0]);
-        //             formData.append('x', cutPictureData.x);
-        //             formData.append('y', cutPictureData.y);
-        //             formData.append('width', cutPictureData.width);
-        //             formData.append('height', cutPictureData.height);
-        //             var fileObj = $('#car_image_input')[0].files[0];
-        //             if(fileObj.size/1024 > 300) { //大于800k，进行压缩上传
-        //                 $('#compress-image-div').css('display', 'block');
-        //                 photoCompress(fileObj, { quality: 0.2 }, function(base64Codes){
-        //                     var bl = convertBase64UrlToBlob(base64Codes);
-        //                     formData.set("file", bl, "file_" + fileObj.name);
-        //                     doUpload(formData);
-        //                 });
-        //             }else{
-        //                 doUpload(formData);
-        //             }
-        //
-        //         },
-        //         handleUploadCarImage: function(){
-        //             var msg = validateImageFile($('#car_image_input'));
-        //             if(msg){
-        //                 this.$message({ message: msg, type: 'error'});
-        //                 return false;
-        //             }
-        //             this.cutPictureVisible = true;
-        //             $('#cut-image-div').css('display', 'block');
-        //             $('.container').empty()
-        //             var $img = $("<img id='cutImg' src=''>");
-        //             $('.container').append($img);
-        //             $img.attr('src', '');
-        //             var $file = $('#car_image_input');
-        //             var fileObj = $file[0];
-        //             var windowURL = window.URL || window.webkitURL;
-        //             var dataURL;
-        //             if (fileObj && fileObj.files && fileObj.files[0]) {
-        //                 dataURL = windowURL.createObjectURL(fileObj.files[0]);
-        //                 $img.attr('src', dataURL);
-        //             } else {
-        //                 dataURL = $file.val();
-        //                 var imgObj = document.getElementById("preview");
-        //                 // 两个坑:
-        //                 // 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
-        //                 // 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
-        //                 imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
-        //                 imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
-        //             }
-        //             $img.cropper({
-        //                 aspectRatio: 16 / 9,
-        //                 preview:".small",
-        //                 crop: function(event) {
-        //                     // console.log(event.detail.x);
-        //                     // console.log(event.detail.y);
-        //                     // console.log(event.detail.width);
-        //                     // console.log(event.detail.height);
-        //                     // console.log(event.detail.rotate);
-        //                     // console.log(event.detail.scaleX);
-        //                     // console.log(event.detail.scaleY);
-        //                 }
-        //             });
-        //
-        //         },
-        //         uploadCarImg: function(){
-        //             if(this.currentRow && this.currentRow.carId){
-        //                 $('#car_image_input').click();
-        //             }
-        //         },
-        //         handleSaveIntroduction: function(){
-        //             var that = this;
-        //             var parm = {carId:this.currentRow.carId, introduction: this.currentRow.introduction};
-        //             $.post('/updateCar', parm, function(res){
-        //                 if(res.code === 0){
-        //                     that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-        //                     that.$message({ message: '详情介绍保存成功！', type: 'success'});
-        //                 }else{
-        //                     that.$message({ message: res.msg, type: 'error'});
-        //                 }
-        //             });
-        //         },
-        //         handleSelectChange: function(val){
-        //             //选中某行，更新右边栏信息
-        //             if(!val)return;
-        //             for(var i = 0; i< this.td.length; i++){
-        //                 if(this.td[i].carId === val.carId){
-        //                     this.currentRowIndex = i;
-        //                     break;
-        //                 }
-        //             }
-        //             this.currentRow = val;
-        //             this.mainImgRadio = 'la' + val.mainImageId;
-        //             this.remnant = 100;
-        //             if(this.currentRow.introduction){
-        //                 this.remnant = 100 - this.currentRow.introduction.length;
-        //             }
-        //         },
-        //         handleUpdateSlogan: function(formName){
-        //             var that = this;
-        //             this.$refs[formName].validate(function(valid) {
-        //                 if (valid) {
-        //                     $.post('/updateCar', that.sloganForm, function(res){
-        //                         if(res.code === 0){
-        //                             that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-        //                             that.$message({ message: '更新宣传语成功！', type: 'success'});
-        //                             that.sloganFormVisible = false;
-        //                         }else{
-        //                             that.$message({ message: res.msg, type: 'error'});
-        //                         }
-        //                     });
-        //                 }
-        //             });
-        //
-        //         },
-        //         handleUpdateIndex: function(value, car){
-        //             var that = this;
-        //             var updateParam = {carId:car.carId, carIndex:value};
-        //             $.post('/updateCar', updateParam, function(res){
-        //                 if(res.code === 0){
-        //                     that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-        //                     that.$message({ message: '更新序号成功！', type: 'success'});
-        //
-        //                 }else{
-        //                     that.$message({ message: res.msg, type: 'error'});
-        //                 }
-        //             });
-        //         },
-        //         showSloganForm: function(formName, car){
-        //             Vue.set(this.sloganForm, 'carId', car.carId);
-        //             Vue.set(this.sloganForm, 'carSlogan', car.carSlogan);
-        //             this.sloganFormVisible = true;
-        //             // this.$refs[formName].resetFields();
-        //         },
-        //         showAddForm: function(formName){
-        //             this.addFormVisible = true;
-        //             if(this.$refs[formName]){
-        //                 this.$refs[formName].resetFields();
-        //             }
-        //         },
-        //         carStatusText: function(value){
-        //             var carStatusDic = {
-        //                 '1': '待发布',
-        //                 '2': '已发布',
-        //                 '3': '已撤销'
-        //             };
-        //             return carStatusDic[value];
-        //         },
-        //         queryData: function(param){
-        //             var that = this;
-        //             $.ajax({
-        //                 url:'/bgListCar',
-        //                 type:'get',
-        //                 data: param,
-        //                 success:function(res){
-        //                     that.td = res.data.list;
-        //                     that.$refs.carTable.setCurrentRow(that.td[that.currentRowIndex]);
-        //                 }
-        //             });
-        //         },
-        //         handleAddCar: function(formName){
-        //             var that = this;
-        //             this.$refs[formName].validate(function(valid) {
-        //                 if (valid) {
-        //                     $.post('/addCar',that.carForm,function(res){
-        //                         if(res.code === 0){
-        //                             that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-        //                             that.$message({ message: '新增车辆成功！', type: 'success'});
-        //                             that.addFormVisible = false;
-        //                         }else{
-        //                             that.$message({ message: res.msg, type: 'error'});
-        //                         }
-        //                     });
-        //                 } else {
-        //                     return false;
-        //                 }
-        //             });
-        //         },
-        //         handleCurrentChange: function(cPage){
-        //             this.cPage = cPage;
-        //             this.queryData($.extend({pageNum:cPage},this.queryParam));
-        //         },
-        //         handleQuery: function(){
-        //             this.queryData($.extend({pageNum:1},this.queryParam));
-        //         },
-        //         handleReset: function(){
-        //             this.queryParam = {carName:'',carStatus:''}
-        //         },
-        //         handlePublish: function(car){
-        //             if(car.carStatus === 2){
-        //                 this.$message({ message: '车辆已经发布了哦！', type: 'warning'});
-        //                 return;
-        //             }
-        //             var that = this;
-        //             $.post('/publishCar',{carId: car.carId},function(){
-        //                 that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-        //                 that.$message({ message: '发布成功！', type: 'success'});
-        //             });
-        //         },
-        //         handleRevoke: function(car){
-        //             var that = this;
-        //             if(car.carStatus === 3){
-        //                 this.$message({ message: '车辆已经是撤待发布状态！', type: 'warning'});
-        //                 return;
-        //             }
-        //             $.post('/revokeCar',{carId: car.carId},function(){
-        //                 that.queryData($.extend({pageNum:that.cPage},that.queryParam));
-        //                 that.$message({ message: '撤销成功！', type: 'success'});
-        //             })
-        //         }
-        //     },
-        //     template:'#car-table'
-        // },
+
         'hr-table':{
             data:function(){
                 var that = this;
@@ -1721,98 +1256,6 @@
             },
             template:'#internalusers-table'
         },
-        // 'shop-table':{
-        //     data: function(){
-        //         var that = this;
-        //         $.get('getShopByUserId',function(res){
-        //             if(res.data.total > 0){
-        //                 that.td  = res.data;
-        //                 that.shop = res.data[0];
-        //             }
-        //         });
-        //         return {
-        //             td: [],
-        //             shop: {},
-        //             formWidth: '28%',
-        //             updateFormVisible: false,
-        //             formLabelWidth: '120px',
-        //             editCarIcon: false,
-        //
-        //         };
-        //     },
-        //     methods: {
-        //         delCarImage: function(){
-        //             Vue.set(this.shop, 'shopImage', '')
-        //         },
-        //         cancelImage: function(){
-        //             this.editCarIcon = false;
-        //             this.refresh();
-        //         },
-        //         editCarImage: function(){
-        //             this.editCarIcon = false;
-        //             var that = this;
-        //             if(this.shop.shopImage === ''){
-        //                 $.post('/updateShop',{shopId: this.shop.shopId, shopImage: ''},function(){
-        //                     that.refresh();
-        //                 });
-        //             }
-        //         },
-        //         handleUpdateShop: function(){
-        //             var that = this;
-        //             this.$refs.shopForm.validate(function(valid) {
-        //                 if (valid) {
-        //                     $.post('/updateShop', that.shop, function(res){
-        //                         if(res.code === 0){
-        //                             that.refresh();
-        //                             that.$message({ message: '更新门店信息成功！', type: 'success'});
-        //                             that.updateFormVisible = false;
-        //                         }else{
-        //                             that.$message({ message: res.msg, type: 'error'});
-        //                         }
-        //                     });
-        //                 }
-        //             });
-        //         },
-        //         refresh: function(){
-        //             var that = this;
-        //             $.get('/getShopByUserId',function(res){
-        //                 if(res.data.length > 0){
-        //                     that.td  = res.data;
-        //                     that.shop = res.data[0];
-        //                 }
-        //             });
-        //         },
-        //         handleUploadShopImage: function(){
-        //             var that = this;
-        //             $.ajax({
-        //                 url: "/uploadShopImage",
-        //                 type: 'POST',
-        //                 cache: false,
-        //                 data: new FormData($('#shopImageForm')[0]),
-        //                 processData: false,
-        //                 contentType: false,
-        //                 dataType:"json",
-        //                 success : function(res) {
-        //                     if(res.code == 0){
-        //                         that.refresh();
-        //                         that.$message({ message: '上传店铺图片成功！', type: 'success'});
-        //                     }else{
-        //                         that.$message({ message: res.msg, type: 'error'});
-        //                     }
-        //                 },
-        //                 error:function(data){
-        //                 }
-        //             });
-        //             $('#shop_image_input').val('');
-        //         },
-        //         uploadShopImg: function(){
-        //             if(this.shop && this.shop.shopId){
-        //                 $('#shop_image_input').click();
-        //             }
-        //         }
-        //     } ,
-        //     template:'#shop-table'
-        // }
     };
     var methods = {
         logout: function(){

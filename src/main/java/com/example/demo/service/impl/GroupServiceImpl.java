@@ -31,7 +31,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public int delete(int id) {
-        return 0;
+        return groupMapper.delete(id);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Group selectGroupByGroupname(String groupname) {
-        return null;
+        return groupMapper.selectGroupByGroupname(groupname);
     }
 
     @Override
@@ -61,6 +61,6 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public int updateIsdel(Group group) {
-        return 0;
+        return groupMapper.updateIsdel(group);
     }
 }

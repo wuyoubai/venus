@@ -21,7 +21,7 @@
     </update>
 
     <select id="selectGroupByGroupname" resultType="com.example.demo.bean.Group">
-        select id,username,password,realname,isdel from user where username = #{username}
+        select * from hr_group where groupname = #{groupname} and isdel = 0
     </select>
 
     <select id="selectGroupById" resultType="com.example.demo.bean.Group">
@@ -37,7 +37,7 @@
     </update>
 
     <update id="updateIsdel">
-        update user
+        update hr_group
         <set>
             isdel = #{isdel},
             updator = #{updator}

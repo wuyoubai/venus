@@ -33,6 +33,7 @@ public class GroupController {
     @GetMapping("/listGroup")
     public Result listGroup(PageQO pageQO, Group group, HttpServletRequest request){
         Page<Group> page = PageHelper.startPage(pageQO.getPageNum(), pageQO.getPageSize());
+        group.setIsdel(0);
         List<Group> groups = groupService.getGroupList(group);
         return Result.buildPageSuccess(page, groups);
     }
@@ -74,4 +75,14 @@ public class GroupController {
         return Result.buildBaseSuccess();
     }
 
+    @PostMapping("/delGroup")
+    public Result delGroup(Group group, HttpServletRequest request){
+        if(groupService.getGroup(group.getId())==null){
+            return Result.buildBaseFail(Message.UNKNOWN_GROUP);
+        }
+        group.setUpdator(CommonUtils.sessionUser(request).getId());
+        group.setIsdel(1);
+        groupService.updateIsdel(group);
+        return Result.buildBaseSuccess();
+    }
 }

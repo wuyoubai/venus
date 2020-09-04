@@ -128,10 +128,11 @@
                         <el-button size="mini" type="primary" @click="handleQuery">搜索</el-button>
                         <el-button size="mini" @click="handleReset">重置</el-button>
                     </el-form-item>
-                    <el-form-item style="margin-left: 160px">
+                    <el-form-item style="margin-left: 90px">
                         <template slot-scope="scope">
                             <el-button size="mini" type="primary" @click="showAddForm('groupForm')">新增</el-button>
-                            <el-button size="mini" type="primary" @click="showEditForm('groupForm',scope.row)">编辑</el-button>
+                            <el-button size="mini" type="primary" @click="showEditForm()">编辑</el-button>
+                            <el-button size="mini" type="danger" @click="delGroup()">删除</el-button>
                         </template>
                     </el-form-item>
                 </el-form>
@@ -221,7 +222,9 @@
                                 align="right"
                                 type="date"
                                 placeholder="选择日期"
-                                :picker-options="pickerOptions">
+                                :picker-options="pickerOptions"
+                                format="yyyy 年 MM 月 dd 日"
+                                value-format="yyyy-MM-dd">>
                         </el-date-picker>
                     </el-form-item>
 
@@ -268,7 +271,9 @@
                                 align="right"
                                 type="date"
                                 placeholder="选择日期"
-                                :picker-options="pickerOptions">
+                                :picker-options="pickerOptions"
+                                format="yyyy 年 MM 月 dd 日"
+                                value-format="yyyy-MM-dd">>
                         </el-date-picker>
                     </el-form-item>
 
@@ -610,13 +615,15 @@
             methods:{
                 handleSelectionChange(val) {
                     this.multipleSelection = val;
-                    var index = val.length-1;
-                    this.groupForm.id=val[index].id;
-                    this.groupForm.groupname=val[index].groupname;
-                    this.groupForm.groupuser=val[index].groupuser;
-                    this.groupForm. groupphone=val[index].groupphone;
-                    this.groupForm.contractEndTime=val[index].contractEndTime;
-                    this.groupForm.remark=val[index].remark;
+                    if (val.length > 0){
+                        var index = val.length-1;
+                        this.groupForm.id=val[index].id;
+                        this.groupForm.groupname=val[index].groupname;
+                        this.groupForm.groupuser=val[index].groupuser;
+                        this.groupForm. groupphone=val[index].groupphone;
+                        this.groupForm.contractEndTime=val[index].contractEndTime;
+                        this.groupForm.remark=val[index].remark;
+                    }
                 },
                 showGroupDateForm: function(group){
                     if(group.groupStatus === 2){
@@ -697,15 +704,8 @@
                         }
                     });
                 },
-                showEditForm: function(formName,row){
-                    console.log(row)
+                showEditForm: function(){
                     this.editFormVisible = true;
-                    this.groupForm.id=row.id;
-                    this.groupForm.groupname=row.groupname;
-                    this.groupForm.groupuser=row.groupuser;
-                    this.groupForm. groupphone=row.groupphone;
-                    this.groupForm.contractEndTime=row.contractEndTime;
-                    this.groupForm.remark=row.remark;
                 },
                 handleEditGroup: function(formName){
                     var that = this;
@@ -723,6 +723,13 @@
                         } else {
                             return false;
                         }
+                    });
+                },
+                delGroup: function(){
+                    var that = this;
+                    $.post('/delGroup',{id: that.groupForm.id},function(){
+                        that.queryData($.extend({pageNum:that.cPage},that.queryParam));
+                        that.$message({ message: '删除成功！', type: 'success'});
                     });
                 }
             },

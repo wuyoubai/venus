@@ -1,6 +1,7 @@
 package com.example.demo.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -20,6 +21,7 @@ public class Group {
     private Integer status;//状态：0启用,1禁用
     private Date contractStartTime;
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date contractEndTime;
     private String remark;
     private Integer isdel;
